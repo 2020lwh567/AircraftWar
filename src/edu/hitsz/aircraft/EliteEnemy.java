@@ -61,6 +61,7 @@ public class EliteEnemy extends AbstractAircraft{
         return res;
     }
 
+    @Override
     public AbstractProp generateProp(){
         AbstractProp prop = null;
         if (Math.random()>0.5){ //有一半的概率获得道具

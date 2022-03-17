@@ -50,6 +50,9 @@ public class Game extends JPanel {
     private int cycleDuration = 600;
     private int cycleTime = 0;
 
+    private int numOfBoss = 0;//boss机出现过的总次数
+    private int cycleScoreOfBoss = 150;//boss机出现的分数周期
+    private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
 
     public Game() {
         heroAircraft = new HeroAircraft(
@@ -96,7 +99,7 @@ public class Game extends JPanel {
                                 (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
                                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
                                 0,
-                                10,
+                                5,
                                 30
                         ));
                     }
@@ -104,13 +107,25 @@ public class Game extends JPanel {
                         enemyAircrafts.add(new EliteEnemy(
                                 (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
                                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                                ((Math.random()>0.5)?1:-1)*5,
-                                10,
+                                ((Math.random()>0.5)?1:-1)*3,
+                                5,
                                 30
                         ));
                     }
                 }
-                //分数达到500的倍数，出现boss敌机
+                //分数达到设定阈值的倍数，出现boss敌机
+                if (score > nextScoreOfBoss && score/cycleScoreOfBoss > numOfBoss){
+                    System.out.printf("%d %d %d\n",Main.WINDOW_WIDTH, ImageManager.BOSS_ENEMY_IMAGE.getHeight(), Main.WINDOW_HEIGHT);
+                    enemyAircrafts.add(new BossEnemy(
+                        (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth()))*1,
+                        (int) (Math.random() * (Main.WINDOW_HEIGHT - ImageManager.BOSS_ENEMY_IMAGE.getHeight()) * 0.5)*1,
+                        ((Math.random()>0.5)?1:-1)*2,
+                        -1,
+                        150
+                    ));
+                    numOfBoss ++;
+                    nextScoreOfBoss +=cycleScoreOfBoss;
+                }
 
                 // 飞机射出子弹
                 shootAction();
@@ -228,12 +243,20 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
-                        if (enemyAircraft instanceof MobEnemy)  //消灭普通敌机，+10分
-                            score += 10;
-                        else if (enemyAircraft instanceof EliteEnemy)  //消灭英雄敌机，+20分
-                            score += 20;
-                        else if (enemyAircraft instanceof BossEnemy)  //消灭boss敌机，+50分
-                            score += 50;
+                        if (enemyAircraft instanceof MobEnemy)
+                            score += 10;    //消灭普通敌机，+10分
+                        else if (enemyAircraft instanceof EliteEnemy){
+                            score += 20;    //消灭英雄敌机，+20分
+                            AbstractProp prop = enemyAircraft.generateProp();
+                            if (prop != null)
+                                props.add(prop);
+                        }
+                        else if (enemyAircraft instanceof BossEnemy) {
+                            score += 50;    //消灭boss敌机，+50分
+                            AbstractProp prop = enemyAircraft.generateProp();
+                            if (prop != null)
+                                props.add(prop);
+                        }
                     }
                 }
                 // 英雄机 与 敌机 相撞，均损毁
@@ -245,20 +268,30 @@ public class Game extends JPanel {
         }
 
         // Todo: 我方获得道具，道具生效
-
+        for (AbstractProp prop : props){
+            if (prop.notValid()) {
+                continue;
+            }
+            if (heroAircraft.crash(prop)){
+                prop.operate(heroAircraft);//道具生效
+                prop.vanish();
+            }
+        }
     }
 
     /**
      * 后处理：
      * 1. 删除无效的子弹
      * 2. 删除无效的敌机
-     * 3. 检查英雄机生存
+     * 3. 删除无效的道具
+     * 4. 检查英雄机生存
      * <p>
      * 无效的原因可能是撞击或者飞出边界
      */
     private void postProcessAction() {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
+        props.removeIf(AbstractFlyingObject::notValid);
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
     }
 
@@ -285,10 +318,12 @@ public class Game extends JPanel {
             this.backGroundTop = 0;
         }
 
-        // 先绘制子弹，后绘制飞机
+        // 先绘制子弹，再绘制道具，最后绘制飞机
         // 这样子弹显示在飞机的下层
         paintImageWithPositionRevised(g, enemyBullets);
         paintImageWithPositionRevised(g, heroBullets);
+
+        paintImageWithPositionRevised(g, props);
 
         paintImageWithPositionRevised(g, enemyAircrafts);
 

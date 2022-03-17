@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.bullet.HeroBullet;
+import edu.hitsz.properties.AbstractProp;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -64,6 +65,13 @@ public class HeroAircraft extends AbstractAircraft {
             res.add(abstractBullet);
         }
         return res;
+    }
+
+    //加血
+    public void increaseHp (int increase){
+        hp += increase;
+        if (hp > maxHp)
+            hp = maxHp;
     }
 
 }

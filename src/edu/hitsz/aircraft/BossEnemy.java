@@ -1,11 +1,14 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.application.Main;
 import edu.hitsz.bullet.AbstractBullet;
+import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.properties.AbstractProp;
 import edu.hitsz.properties.PropBlood;
 import edu.hitsz.properties.PropBomb;
 import edu.hitsz.properties.PropBullet;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class BossEnemy extends AbstractAircraft{
@@ -39,14 +42,31 @@ public class BossEnemy extends AbstractAircraft{
 
     @Override
     public void forward() {
-        // boss机不移动
+        super.forward();
+        // 判定 y 轴向上飞行出界
+        if (locationY <= 0 ) {
+            speedY = -speedY;
+        }
     }
 
     @Override
     public List<AbstractBullet> shoot() {
-        return null;
+        List<AbstractBullet> res = new LinkedList<>();
+        int x = this.getLocationX();
+        int y = this.getLocationY() + direction*2;
+        int speedX = 0;
+        int speedY = this.getSpeedY() + direction*5;
+        AbstractBullet abstractBullet;
+        for(int i=0; i<shootNum; i++){
+            // 子弹发射位置相对飞机位置向前偏移
+            // 多个子弹横向分散
+            abstractBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX, speedY, power);
+            res.add(abstractBullet);
+        }
+        return res;
     }
 
+    @Override
     public AbstractProp generateProp(){
         AbstractProp prop = null;
 
