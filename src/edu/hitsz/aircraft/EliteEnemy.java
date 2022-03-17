@@ -3,6 +3,10 @@ package edu.hitsz.aircraft;
 import edu.hitsz.application.Main;
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.properties.AbstractProp;
+import edu.hitsz.properties.PropBlood;
+import edu.hitsz.properties.PropBomb;
+import edu.hitsz.properties.PropBullet;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -55,5 +59,22 @@ public class EliteEnemy extends AbstractAircraft{
             res.add(abstractBullet);
         }
         return res;
+    }
+
+    public AbstractProp generateProp(){
+        AbstractProp prop = null;
+        if (Math.random()>0.5){ //有一半的概率获得道具
+            //以下三种道具获得概率相同
+            if (Math.random()<0.33){//获得加血道具
+                prop = new PropBlood(this.getLocationX(), this.getLocationY());
+            }
+            else if(Math.random()>0.66){//获得炸弹道具
+                prop = new PropBomb(this.getLocationX(), this.getLocationY());
+            }
+            else{//获得火力道具
+                prop = new PropBullet(this.getLocationX(), this.getLocationY());
+            }
+        }
+        return prop;
     }
 }
