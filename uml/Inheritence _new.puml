@@ -12,9 +12,9 @@ abstract class AbstractFlyingObject
     # height:int
     # isValid:boolean
 
-    + FlyingObject(int locationX, int locationY, int speedX, int speedY):void
+    + AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY)
     + forward():void
-    + crash(FlyingObject flyingObject):boolean
+    + crash(AbstractFlyingObject flyingObject):boolean
     + setLocation(double locationX, double locationY):void
     + getLocationX():int
     + getLocationY():int
@@ -29,58 +29,52 @@ abstract class AbstractAircraft
 {
 	# axHp:int
     # hp:int
-    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + decreaseHp(int decrease):void
     + getHp():int
-    + {abstract} shoot():List<Bullet>
+    + {abstract} shoot():List<BaseBullet>
  }
 
-abstract class AbstractBullet
+abstract class BaseBullet
 {
     - power:int
-    + Bullet(int locationX, int locationY, int speedX, int speedY, int power):void
+    + BaseBullet(int locationX, int locationY, int speedX, int speedY, int power)
     + forward():void
 	+ getPower():int
 }
 
 AbstractFlyingObject <|-- AbstractAircraft
-AbstractFlyingObject <|-- AbstractBullet
+AbstractFlyingObject <|-- BaseBullet
 
 AbstractAircraft <|-- HeroAircraft
 AbstractAircraft <|-- MobEnemy
-AbstractAircraft <|-- BossEnemy
 
-AbstractBullet <|-- HeroBullet
-AbstractBullet <|-- EnemyBullet
+BaseBullet <|-- HeroBullet
+BaseBullet <|-- EnemyBullet
 
 class HeroAircraft {
     - shootNum:int
     - power:int
     - direction:int
-    + HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
-    + shoot():List<Bullet>
+    + shoot():List<BaseBullet>
 }
 
 class MobEnemy {
-    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp):void
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
-    + shoot():List<Bullet>
-}
-
-class BossEnemy {
-    + forward():void
-    + shoot():List<Bullet>
+    + shoot():List<BaseBullet>
 }
 
 class HeroBullet {
     + HeroBullet(int locationX, int locationY,
-     int speedX, int speedY, int power):void
+     int speedX, int speedY, int power)
 }
 
 class EnemyBullet {
     + EnemyBullet(int locationX, int locationY,
-     int speedX, int speedY, int power):void
+     int speedX, int speedY, int power)
 }
 
 @enduml

@@ -84,16 +84,28 @@ public class Game extends JPanel {
 
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
-                System.out.println(time);
+                System.out.println("time:"+time);
                 // 新敌机产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
-                    enemyAircrafts.add(new MobEnemy(
-                            (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
-                            (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                            0,
-                            10,
-                            30
-                    ));
+                    //以0.2概率产生精英敌机，0.8概率产生普通敌机
+                    if(Math.random()>=0.2){
+                        enemyAircrafts.add(new MobEnemy(
+                                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
+                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
+                                0,
+                                10,
+                                30
+                        ));
+                    }
+                    else{
+                        enemyAircrafts.add(new EliteEnemy(
+                                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
+                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
+                                5,
+                                10,
+                                30
+                        ));
+                    }
                 }
                 // 飞机射出子弹
                 shootAction();
@@ -149,6 +161,9 @@ public class Game extends JPanel {
 
     private void shootAction() {
         // TODO 敌机射击
+        for (AbstractAircraft eliteaircraft :enemyAircrafts) {
+            enemyBullets.addAll(eliteaircraft.shoot());
+        }
 
         // 英雄射击
         heroBullets.addAll(heroAircraft.shoot());
