@@ -1,6 +1,11 @@
 package edu.hitsz.properties;
 
+import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.bullet.AbstractBullet;
+import edu.hitsz.bullet.EnemyBullet;
+
+import java.util.List;
 
 /**
  * 加血道具
@@ -16,8 +21,8 @@ public class PropBlood extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft aircraft) {
-        aircraft.increaseHp(returnBlood);
+    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
+        heroaircraft.increaseHp(returnBlood);
     }
 
 }

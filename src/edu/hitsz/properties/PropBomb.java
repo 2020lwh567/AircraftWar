@@ -1,6 +1,13 @@
 package edu.hitsz.properties;
 
+import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.BossEnemy;
 import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.application.Game;
+import edu.hitsz.bullet.AbstractBullet;
+import edu.hitsz.bullet.EnemyBullet;
+
+import java.util.List;
 
 /**
  * 炸弹道具
@@ -13,7 +20,14 @@ public class PropBomb extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft aircraft) {
+    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
+        for (AbstractBullet bullet : enemybullet){
+            bullet.vanish();
+        }
+        for (AbstractAircraft aircraft : enemyaircraft){
+            if (!(aircraft instanceof BossEnemy))
+                aircraft.vanish();
+        }
         System.out.println("BombSupply active!");
     }
 }

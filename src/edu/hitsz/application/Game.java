@@ -4,6 +4,7 @@ import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.AbstractBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.properties.AbstractProp;
+import edu.hitsz.properties.PropBlood;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -51,7 +52,7 @@ public class Game extends JPanel {
     private int cycleTime = 0;
 
     private int numOfBoss = 0;//boss机出现过的总次数
-    private int cycleScoreOfBoss = 150;//boss机出现的分数周期
+    private int cycleScoreOfBoss = 300;//boss机出现的分数周期
     private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
 
     public Game() {
@@ -115,7 +116,6 @@ public class Game extends JPanel {
                 }
                 //分数达到设定阈值的倍数，出现boss敌机
                 if (score > nextScoreOfBoss && score/cycleScoreOfBoss > numOfBoss){
-                    System.out.printf("%d %d %d\n",Main.WINDOW_WIDTH, ImageManager.BOSS_ENEMY_IMAGE.getHeight(), Main.WINDOW_HEIGHT);
                     enemyAircrafts.add(new BossEnemy(
                         (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth()))*1,
                         (int) (Math.random() * (Main.WINDOW_HEIGHT - ImageManager.BOSS_ENEMY_IMAGE.getHeight()) * 0.5)*1,
@@ -281,8 +281,8 @@ public class Game extends JPanel {
             if (prop.notValid()) {
                 continue;
             }
-            if (heroAircraft.crash(prop)){
-                prop.operate(heroAircraft);//道具生效
+            if (heroAircraft.crash(prop)){//道具生效
+                prop.operate(heroAircraft, enemyAircrafts, enemyBullets);
                 prop.vanish();
             }
         }
