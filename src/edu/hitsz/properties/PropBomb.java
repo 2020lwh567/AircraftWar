@@ -30,4 +30,15 @@ public class PropBomb extends AbstractProp{
         }
         System.out.println("BombSupply active!");
     }
+
+    @Override
+    public boolean timeLimitExceeded(int currentTime) {
+        return false;
+    }
+
+    @Override
+    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
+        //炸弹道具只在一瞬间有效
+    }
+
 }

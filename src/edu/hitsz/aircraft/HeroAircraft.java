@@ -74,4 +74,9 @@ public class HeroAircraft extends AbstractAircraft {
             hp = maxHp;
     }
 
+    //增强火力
+    public void increaseFire(int increaseShootNum, int increasePower){
+        shootNum += increaseShootNum;
+        power += increasePower;
+    }
 }

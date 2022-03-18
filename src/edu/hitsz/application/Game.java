@@ -37,7 +37,8 @@ public class Game extends JPanel {
     private final List<AbstractAircraft> enemyAircrafts;
     private final List<AbstractBullet> heroBullets;
     private final List<AbstractBullet> enemyBullets;
-    private final List<AbstractProp> props;
+    private final List<AbstractProp> props;//页面上的所有道具
+    private final List<AbstractProp> usingProps;//当前在使用的、有限时的道具
 
     private int enemyMaxNumber = 5;
 
@@ -65,6 +66,7 @@ public class Game extends JPanel {
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         props = new LinkedList<>();
+        usingProps = new LinkedList<>();
 
         /**
          * Scheduled 线程池，用于定时任务调度
@@ -108,7 +110,7 @@ public class Game extends JPanel {
                         enemyAircrafts.add(new EliteEnemy(
                                 (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
                                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                                ((Math.random()>0.5)?1:-1)*3,
+                                ((Math.random()>0.66)?1:(Math.random()>0.5?0:-1))*3,
                                 5,
                                 30
                         ));
@@ -282,25 +284,47 @@ public class Game extends JPanel {
                 continue;
             }
             if (heroAircraft.crash(prop)){//道具生效
+                prop.setStartTime(time);//记录获得时间
+                usingProps.add(prop);
                 prop.operate(heroAircraft, enemyAircrafts, enemyBullets);
                 prop.vanish();
             }
         }
     }
 
+    //清除超时道具
+    private void removeTimeExceededProps(){
+        Iterator<AbstractProp> iterator = usingProps.iterator();
+        while(iterator.hasNext()){
+            AbstractProp prop = iterator.next();
+            if (prop.timeLimitExceeded(time)){
+                prop.setInvalid(heroAircraft, enemyAircrafts, enemyBullets);
+                iterator.remove();
+            }
+        }
+//        for (AbstractProp prop : usingProps){
+//            if (prop.timeLimitExceeded(time)){
+//                prop.setInvalid(heroAircraft, enemyAircrafts, enemyBullets);
+//                usingProps.remove(prop);
+//            }
+//        }
+    }
     /**
      * 后处理：
      * 1. 删除无效的子弹
      * 2. 删除无效的敌机
      * 3. 删除无效的道具
-     * 4. 检查英雄机生存
+     * 4. 删除超过时效的道具
+     * 5. 检查英雄机生存
      * <p>
      * 无效的原因可能是撞击或者飞出边界
      */
+
     private void postProcessAction() {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         props.removeIf(AbstractFlyingObject::notValid);
+        removeTimeExceededProps();
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
     }
 

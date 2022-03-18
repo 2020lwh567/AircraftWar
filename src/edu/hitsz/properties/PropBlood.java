@@ -25,4 +25,14 @@ public class PropBlood extends AbstractProp{
         heroaircraft.increaseHp(returnBlood);
     }
 
+    @Override
+    public boolean timeLimitExceeded(int currentTime) {
+        return false;
+    }
+
+    @Override
+    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
+        //加血道具始终有效
+    }
+
 }
