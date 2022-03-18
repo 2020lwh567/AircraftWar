@@ -9,7 +9,7 @@ import edu.hitsz.basic.AbstractFlyingObject;
 
 public abstract class AbstractProp extends AbstractFlyingObject {
     public AbstractProp(int locationX, int locationY) {
-        super(locationX, locationY, 0, 0);
+        super(locationX, locationY, 0, 2);
     }
 
     public abstract void operate(HeroAircraft aircraft);

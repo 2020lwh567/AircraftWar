@@ -134,6 +134,9 @@ public class Game extends JPanel {
             // 子弹移动
             bulletsMoveAction();
 
+            //道具移动
+            propsMoveAction();
+
             // 飞机移动
             aircraftsMoveAction();
 
@@ -195,6 +198,12 @@ public class Game extends JPanel {
         }
         for (AbstractBullet bullet : enemyBullets) {
             bullet.forward();
+        }
+    }
+
+    private void propsMoveAction() {
+        for (AbstractProp prop : props){
+            prop.forward();
         }
     }
 
