@@ -17,7 +17,7 @@ public class BossEnemy extends AbstractAircraft{
     /**
      * 子弹一次发射数量
      */
-    private int shootNum = 1;
+    private int shootNum = 3;
 
     /**
      * 子弹伤害
@@ -54,13 +54,13 @@ public class BossEnemy extends AbstractAircraft{
         List<AbstractBullet> res = new LinkedList<>();
         int x = this.getLocationX();
         int y = this.getLocationY() + direction*2;
-        int speedX = 0;
+       // int speedX = 0;
         int speedY = this.getSpeedY() + direction*5;
         AbstractBullet abstractBullet;
         for(int i=0; i<shootNum; i++){
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
-            abstractBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, speedX, speedY, power);
+            abstractBullet = new EnemyBullet(x + (i*2 - shootNum + 1)*10, y, i-shootNum/2, speedY, power);
             res.add(abstractBullet);
         }
         return res;
