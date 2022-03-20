@@ -3,9 +3,7 @@ package edu.hitsz.properties;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.aircraft.BossEnemy;
 import edu.hitsz.aircraft.HeroAircraft;
-import edu.hitsz.application.Game;
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bullet.BaseBullet;
 
 import java.util.List;
 
@@ -20,8 +18,8 @@ public class PropBomb extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
-        for (AbstractBullet bullet : enemybullet){
+    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+        for (BaseBullet bullet : enemybullet){
             bullet.vanish();
         }
         for (AbstractAircraft aircraft : enemyaircraft){
@@ -37,7 +35,7 @@ public class PropBomb extends AbstractProp{
     }
 
     @Override
-    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet) {
+    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         //炸弹道具只在一瞬间有效
     }
 

@@ -1,6 +1,6 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.bullet.AbstractBullet;
+import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.properties.AbstractProp;
 
@@ -44,7 +44,7 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      *  可射击对象需实现，返回子弹
      *  非可射击对象空实现，返回null
      */
-    public abstract List<AbstractBullet> shoot();
+    public abstract List<BaseBullet> shoot();
 
     //产生道具
     public AbstractProp generateProp(){

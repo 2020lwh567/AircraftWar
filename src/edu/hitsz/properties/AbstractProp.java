@@ -3,8 +3,7 @@ package edu.hitsz.properties;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.bullet.AbstractBullet;
-import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.bullet.BaseBullet;
 
 import java.util.List;
 
@@ -29,11 +28,11 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     }
 
     //道具生效函数
-    public abstract void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet);
+    public abstract void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet);
 
     //是否超过使用限时
     public abstract boolean timeLimitExceeded(int currentTime);
 
     //道具失效函数
-    public abstract void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<AbstractBullet> enemybullet);
+    public abstract void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet);
 }

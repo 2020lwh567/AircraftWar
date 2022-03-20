@@ -1,7 +1,7 @@
 package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
-import edu.hitsz.bullet.AbstractBullet;
+import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.properties.AbstractProp;
 import edu.hitsz.properties.PropBlood;
@@ -45,13 +45,13 @@ public class EliteEnemy extends AbstractAircraft{
      * 通过射击产生子弹
      * @return 射击出的子弹List
      */
-    public List<AbstractBullet> shoot() {
-        List<AbstractBullet> res = new LinkedList<>();
+    public List<BaseBullet> shoot() {
+        List<BaseBullet> res = new LinkedList<>();
         int x = this.getLocationX();
         int y = this.getLocationY() + direction*2;
         int speedX = 0;
         int speedY = this.getSpeedY() + direction*5;
-        AbstractBullet abstractBullet;
+        BaseBullet abstractBullet;
         for(int i=0; i<shootNum; i++){
             // 子弹发射位置相对飞机位置向前偏移
             // 多个子弹横向分散
