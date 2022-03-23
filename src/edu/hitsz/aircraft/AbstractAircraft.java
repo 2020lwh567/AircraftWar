@@ -2,7 +2,6 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.properties.AbstractProp;
 
 import java.util.List;
 

@@ -3,10 +3,11 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
-import edu.hitsz.factory.AbstractEnemyAircraftFactory;
-import edu.hitsz.factory.BossEnemyFactory;
-import edu.hitsz.factory.EliteEnemyFactory;
-import edu.hitsz.factory.MobEnemyFactory;
+import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
+import edu.hitsz.aircraftFactory.BossEnemyFactory;
+import edu.hitsz.aircraftFactory.EliteEnemyFactory;
+import edu.hitsz.aircraftFactory.MobEnemyFactory;
+import edu.hitsz.propFactory.AbstractPropFactory;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
