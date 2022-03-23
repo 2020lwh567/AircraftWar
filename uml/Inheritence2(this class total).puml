@@ -100,9 +100,10 @@ AbstractPropFactory <|-- PropBloodFactory
 AbstractPropFactory <|-- PropBombFactory
 AbstractPropFactory <|-- PropBulletFactory
 
-PropBloodFactory <|.. AbstractEnemyAircraft
-PropBombFactory <|.. AbstractEnemyAircraft
-PropBulletFactory <|.. AbstractEnemyAircraft
+AbstractPropFactory <|.. AbstractEnemyAircraft
+PropBomb <|.. PropBombFactory
+PropBullet <|.. PropBulletFactory
+PropBlood <|.. PropBloodFactory
 
 BaseBullet <|-- HeroBullet
 BaseBullet <|-- EnemyBullet

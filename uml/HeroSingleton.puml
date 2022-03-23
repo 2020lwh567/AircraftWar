@@ -1,0 +1,17 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class HeroAircraft {
+    - shootNum:int
+    - power:int
+    - direction:int
+    - {static} heroAircraft:HeroAircraft
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + {static} getHeroAircraft():HeroAircraft
+    + forward():void
+    + shoot():List<BaseBullet>
+    + increaseHp(int increase):void
+    + increaseFire(int increaseShootNum, int increasePower):void
+}
+
+@enduml
