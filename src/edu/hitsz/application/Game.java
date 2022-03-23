@@ -56,10 +56,7 @@ public class Game extends JPanel {
     private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
 
     public Game() {
-        heroAircraft = new HeroAircraft(
-                Main.WINDOW_WIDTH / 2,
-                Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
-                0, 0, 100);
+        heroAircraft = HeroAircraft.getHeroAircraft();
 
         enemyAircrafts = new LinkedList<>();
         heroBullets = new LinkedList<>();
