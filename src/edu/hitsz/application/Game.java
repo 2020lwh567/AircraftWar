@@ -3,6 +3,10 @@ package edu.hitsz.application;
 import edu.hitsz.aircraft.*;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.basic.AbstractFlyingObject;
+import edu.hitsz.factory.AbstractEnemyAircraftFactory;
+import edu.hitsz.factory.BossEnemyFactory;
+import edu.hitsz.factory.EliteEnemyFactory;
+import edu.hitsz.factory.MobEnemyFactory;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
@@ -38,6 +42,7 @@ public class Game extends JPanel {
     private final List<BaseBullet> enemyBullets;
     private final List<AbstractProp> props;//页面上的所有道具
     private final List<AbstractProp> usingProps;//当前在使用的、有限时的道具
+    private AbstractEnemyAircraftFactory abstractEnemyAircraftFactory;//抽象的敌机产生工厂
 
     private int enemyMaxNumber = 5;
 
@@ -52,7 +57,7 @@ public class Game extends JPanel {
     private int cycleTime = 0;
 
     private int numOfBoss = 0;//boss机出现过的总次数
-    private int cycleScoreOfBoss = 50;//boss机出现的分数周期
+    private int cycleScoreOfBoss = 300;//boss机出现的分数周期
     private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
 
     public Game() {
@@ -94,33 +99,18 @@ public class Game extends JPanel {
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //以0.2概率产生精英敌机，0.8概率产生普通敌机
                     if(Math.random()>=0.2){
-                        enemyAircrafts.add(new MobEnemy(
-                                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.MOB_ENEMY_IMAGE.getWidth()))*1,
-                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                                0,
-                                5,
-                                30
-                        ));
+                        abstractEnemyAircraftFactory = new MobEnemyFactory();
+                        enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     }
                     else{
-                        enemyAircrafts.add(new EliteEnemy(
-                                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
-                                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
-                                ((Math.random()>0.66)?1:(Math.random()>0.5?0:-1))*3,
-                                5,
-                                30
-                        ));
+                        abstractEnemyAircraftFactory = new EliteEnemyFactory();
+                        enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     }
                 }
                 //分数达到设定阈值的倍数，出现boss敌机
                 if (score > nextScoreOfBoss && score/cycleScoreOfBoss > numOfBoss){
-                    enemyAircrafts.add(new BossEnemy(
-                        (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth()))*1,
-                        (int) (Math.random() * (Main.WINDOW_HEIGHT - ImageManager.BOSS_ENEMY_IMAGE.getHeight()) * 0.5)*1,
-                        ((Math.random()>0.5)?1:-1)*2,
-                        -1,
-                        150
-                    ));
+                    abstractEnemyAircraftFactory = new BossEnemyFactory();
+                    enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     numOfBoss ++;
                     nextScoreOfBoss +=cycleScoreOfBoss;
                 }
