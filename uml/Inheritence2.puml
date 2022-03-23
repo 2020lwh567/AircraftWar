@@ -52,10 +52,15 @@ class BaseBullet
 	+ getPower():int
 }
 
+abstract class AbstractEnemyAircraftFactory
+{
+    + {abstract} createEnemyAircraft():AbstractEnemyAircraft
+}
+
 abstract class AbstractProp
 {
     - startTime:int
-    - linitTime:int
+    - limitTime:int
     + AbstractProp(int locationX, int locationY)
     + setStartTime(int startTime):void
     + getStartTime():int
@@ -75,6 +80,15 @@ AbstractAircraft <|-- AbstractEnemyAircraft
 AbstractEnemyAircraft <|-- MobEnemy
 AbstractEnemyAircraft <|-- BossEnemy
 AbstractEnemyAircraft <|-- EliteEnemy
+
+AbstractEnemyAircraftFactory <|-- BossEnemyFactory
+AbstractEnemyAircraftFactory <|-- EliteEnemyFactory
+AbstractEnemyAircraftFactory <|-- MobEnemyFactory
+
+AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
+MobEnemy <|.. MobEnemyFactory
+BossEnemy <|.. BossEnemyFactory
+EliteEnemy <|.. EliteEnemyFactory
 
 BaseBullet <|-- HeroBullet
 BaseBullet <|-- EnemyBullet
@@ -129,6 +143,18 @@ class EnemyBullet {
      int speedX, int speedY, int power)
 }
 
+class BossEnemyFactory {
+    + createEnemyAircraft():AbstractEnemyAircraft
+}
+
+class EliteEnemyFactory {
+    + createEnemyAircraft():AbstractEnemyAircraft
+}
+
+class MobEnemyFactory {
+    + createEnemyAircraft():AbstractEnemyAircraft
+}
+
 class PropBlood {
     - returnBlood:int
     + PropBlood(int locationX, int locationY)
@@ -151,7 +177,7 @@ class PropBomb {
 class PropBullet {
     - increaseShootNum:int
     - increasePower:int
-    - linitTime:int
+    - limitTime:int
     + PropBullet(int locationX, int locationY)
     + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
     List<BaseBullet> enemybullet):void
