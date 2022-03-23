@@ -39,9 +39,10 @@ abstract class AbstractAircraft
  abstract class AbstractEnemyAircraft
  {
     # direction:int
+    - abstractPropFactory:AbstractPropFactory
     + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
-    + {abstract} generateProp():AbstractProp
+    + generateProp():AbstractProp
  }
 
 class BaseBullet
@@ -71,6 +72,11 @@ abstract class AbstractProp
     List<BaseBullet> enemybullet):void
 }
 
+abstract class AbstractPropFactory
+{
+    + {abstract} createProp(int locationX, int locationY):AbstractProp
+}
+
 AbstractFlyingObject <|-- AbstractAircraft
 AbstractFlyingObject <|-- BaseBullet
 AbstractFlyingObject <|-- AbstractProp
@@ -89,6 +95,14 @@ AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
 MobEnemy <|.. MobEnemyFactory
 BossEnemy <|.. BossEnemyFactory
 EliteEnemy <|.. EliteEnemyFactory
+
+AbstractPropFactory <|-- PropBloodFactory
+AbstractPropFactory <|-- PropBombFactory
+AbstractPropFactory <|-- PropBulletFactory
+
+PropBloodFactory <|.. AbstractEnemyAircraft
+PropBombFactory <|.. AbstractEnemyAircraft
+PropBulletFactory <|.. AbstractEnemyAircraft
 
 BaseBullet <|-- HeroBullet
 BaseBullet <|-- EnemyBullet
@@ -116,7 +130,6 @@ class BossEnemy {
     + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + forward():void
     + shoot():List<BaseBullet>
-    + generateProp():AbstractProp
 }
 
 class EliteEnemy {
@@ -184,6 +197,18 @@ class PropBullet {
     + timeLimitExceeded(int currentTime):boolean
     + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
     List<BaseBullet> enemybullet):void
+}
+
+class PropBloodFactory{
+    + createProp(int locationX, int locationY):AbstractProp
+}
+
+class PropBombFactory{
+    + createProp(int locationX, int locationY):AbstractProp
+}
+
+class PropBulletFactory{
+    + createProp(int locationX, int locationY):AbstractProp
 }
 
 @enduml

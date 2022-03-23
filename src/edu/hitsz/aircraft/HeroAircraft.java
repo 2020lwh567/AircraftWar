@@ -31,6 +31,7 @@ public class HeroAircraft extends AbstractAircraft {
      */
     private int direction = -1;
 
+    //唯一实例
     private volatile static HeroAircraft heroAircraft;
 
     /**
