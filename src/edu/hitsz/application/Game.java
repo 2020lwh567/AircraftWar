@@ -33,7 +33,7 @@ public class Game extends JPanel {
     private int timeInterval = 40;
 
     private final HeroAircraft heroAircraft;
-    private final List<AbstractAircraft> enemyAircrafts;
+    private final List<AbstractEnemyAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
     private final List<AbstractProp> props;//页面上的所有道具
@@ -52,7 +52,7 @@ public class Game extends JPanel {
     private int cycleTime = 0;
 
     private int numOfBoss = 0;//boss机出现过的总次数
-    private int cycleScoreOfBoss = 300;//boss机出现的分数周期
+    private int cycleScoreOfBoss = 50;//boss机出现的分数周期
     private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
 
     public Game() {
@@ -237,7 +237,7 @@ public class Game extends JPanel {
             if (bullet.notValid()) {
                 continue;
             }
-            for (AbstractAircraft enemyAircraft : enemyAircrafts) {
+            for (AbstractEnemyAircraft enemyAircraft : enemyAircrafts) {
                 if (enemyAircraft.notValid()) {
                     // 已被其他子弹击毁的敌机，不再检测
                     // 避免多个子弹重复击毁同一敌机的判定

@@ -1,6 +1,7 @@
 package edu.hitsz.properties;
 
 import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.bullet.BaseBullet;
 
@@ -21,7 +22,7 @@ public class PropBullet extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         heroaircraft.increaseFire(increaseShootNum, increasePower);
         System.out.println("FireSupply active!");
     }
@@ -36,7 +37,7 @@ public class PropBullet extends AbstractProp{
 
     @Override
     //道具超时失效
-    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         heroaircraft.increaseFire(-increaseShootNum, -increasePower);
         System.out.println("FireSupply exceeds time limit!");
     }

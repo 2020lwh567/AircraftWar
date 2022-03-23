@@ -1,6 +1,7 @@
 package edu.hitsz.properties;
 
 import edu.hitsz.aircraft.AbstractAircraft;
+import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.bullet.BaseBullet;
 
@@ -20,7 +21,7 @@ public class PropBlood extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         heroaircraft.increaseHp(returnBlood);
     }
 
@@ -30,7 +31,7 @@ public class PropBlood extends AbstractProp{
     }
 
     @Override
-    public void setInvalid(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         //加血道具始终有效
     }
 

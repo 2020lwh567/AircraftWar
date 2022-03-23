@@ -11,7 +11,7 @@ import edu.hitsz.properties.PropBullet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class EliteEnemy extends AbstractAircraft{
+public class EliteEnemy extends AbstractEnemyAircraft {
     /**
      * 子弹一次发射数量
      */
@@ -22,22 +22,8 @@ public class EliteEnemy extends AbstractAircraft{
      */
     private int power = 20;
 
-    /**
-     * 子弹射击方向 (向下发射：1，向上发射：-1)
-     */
-    private int direction = 1;
-
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
-    }
-
-    @Override
-    public void forward() {
-        super.forward();
-        // 判定 y 轴向下飞行出界
-        if (locationY >= Main.WINDOW_HEIGHT ) {
-            vanish();
-        }
     }
 
     @Override

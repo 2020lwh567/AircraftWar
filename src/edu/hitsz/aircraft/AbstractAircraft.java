@@ -46,10 +46,6 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
      */
     public abstract List<BaseBullet> shoot();
 
-    //产生道具
-    public AbstractProp generateProp(){
-        return null;
-    }
 }
 
 
