@@ -31,7 +31,9 @@ public class HeroAircraft extends AbstractAircraft {
      */
     private int direction = -1;
 
-    //唯一实例
+    /**
+     * 唯一实例
+     */
     private volatile static HeroAircraft heroAircraft;
 
     /**
@@ -85,14 +87,15 @@ public class HeroAircraft extends AbstractAircraft {
         return res;
     }
 
-    //加血
+    /**加血*/
     public void increaseHp (int increase){
         hp += increase;
-        if (hp > maxHp)
+        if (hp > maxHp) {
             hp = maxHp;
+        }
     }
 
-    //增强火力
+    /**增强火力*/
     public void increaseFire(int increaseShootNum, int increasePower){
         shootNum += increaseShootNum;
         power += increasePower;

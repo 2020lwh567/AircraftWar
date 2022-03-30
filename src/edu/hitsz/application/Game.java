@@ -7,7 +7,6 @@ import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
 import edu.hitsz.aircraftFactory.BossEnemyFactory;
 import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
-import edu.hitsz.propFactory.AbstractPropFactory;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
@@ -41,9 +40,15 @@ public class Game extends JPanel {
     private final List<AbstractEnemyAircraft> enemyAircrafts;
     private final List<BaseBullet> heroBullets;
     private final List<BaseBullet> enemyBullets;
-    private final List<AbstractProp> props;//页面上的所有道具
-    private final List<AbstractProp> usingProps;//当前在使用的、有限时的道具
-    private AbstractEnemyAircraftFactory abstractEnemyAircraftFactory;//抽象的敌机产生工厂
+
+    /**页面上的所有道具*/
+    private final List<AbstractProp> props;
+
+    /**当前在使用的、有限时的道具*/
+    private final List<AbstractProp> usingProps;
+
+    /**抽象的敌机产生工厂*/
+    private AbstractEnemyAircraftFactory abstractEnemyAircraftFactory;
 
     private int enemyMaxNumber = 5;
 
@@ -57,9 +62,14 @@ public class Game extends JPanel {
     private int cycleDuration = 600;
     private int cycleTime = 0;
 
-    private int numOfBoss = 0;//boss机出现过的总次数
-    private int cycleScoreOfBoss = 300;//boss机出现的分数周期
-    private int nextScoreOfBoss = cycleScoreOfBoss;//下次出现boss机的分数
+    /**boss机出现过的总次数*/
+    private int numOfBoss = 0;
+
+    /**boss机出现的分数周期*/
+    private int cycleScoreOfBoss = 300;
+
+    /**下次出现boss机的分数*/
+    private int nextScoreOfBoss = cycleScoreOfBoss;
 
     public Game() {
         heroAircraft = HeroAircraft.getHeroAircraft();
@@ -99,7 +109,8 @@ public class Game extends JPanel {
                 // 新敌机（精英敌机和普通敌机）产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //以0.2概率产生精英敌机，0.8概率产生普通敌机
-                    if(Math.random()>=0.2){
+                    double prob = 1.0/5;
+                    if(Math.random()>=prob){
                         abstractEnemyAircraftFactory = new MobEnemyFactory();
                         enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     }
@@ -241,19 +252,25 @@ public class Game extends JPanel {
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
-                        if (enemyAircraft instanceof MobEnemy)
-                            score += 10;    //消灭普通敌机，+10分
+                        if (enemyAircraft instanceof MobEnemy){
+                            //消灭普通敌机，+10分
+                            score += 10;
+                        }
                         else if (enemyAircraft instanceof EliteEnemy){
-                            score += 20;    //消灭英雄敌机，+20分
+                            //消灭英雄敌机，+20分
+                            score += 20;
                             AbstractProp prop = enemyAircraft.generateProp();
-                            if (prop != null)
+                            if (prop != null){
                                 props.add(prop);
+                            }
                         }
                         else if (enemyAircraft instanceof BossEnemy) {
-                            score += 50;    //消灭boss敌机，+50分
+                            //消灭boss敌机，+50分
+                            score += 50;
                             AbstractProp prop = enemyAircraft.generateProp();
-                            if (prop != null)
+                            if (prop != null){
                                 props.add(prop);
+                            }
                         }
                     }
                 }
@@ -270,8 +287,10 @@ public class Game extends JPanel {
             if (prop.notValid()) {
                 continue;
             }
-            if (heroAircraft.crash(prop)){//道具生效
-                prop.setStartTime(time);//记录获得时间
+            //道具生效
+            if (heroAircraft.crash(prop)){
+                //记录获得时间
+                prop.setStartTime(time);
                 usingProps.add(prop);
                 prop.operate(heroAircraft, enemyAircrafts, enemyBullets);
                 prop.vanish();
@@ -279,7 +298,7 @@ public class Game extends JPanel {
         }
     }
 
-    //清除超时的火力道具
+    /**清除超时的火力道具*/
     private void removeTimeExceededProps(){
         Iterator<AbstractProp> iterator = usingProps.iterator();
         while(iterator.hasNext()){

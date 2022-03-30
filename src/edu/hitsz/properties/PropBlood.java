@@ -13,8 +13,8 @@ import java.util.List;
 
 
 public class PropBlood extends AbstractProp{
-
-    private int returnBlood = 30;   //回血量
+    /**回血量*/
+    private int returnBlood = 30;
 
     public PropBlood(int locationX, int locationY) {
         super(locationX, locationY);

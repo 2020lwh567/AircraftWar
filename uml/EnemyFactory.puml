@@ -15,6 +15,11 @@ abstract class AbstractEnemyAircraftFactory
     + {abstract} createEnemyAircraft():AbstractEnemyAircraft
 }
 
+AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
+MobEnemy <|.. MobEnemyFactory
+BossEnemy <|.. BossEnemyFactory
+EliteEnemy <|.. EliteEnemyFactory
+
 AbstractEnemyAircraft <|-- MobEnemy
 AbstractEnemyAircraft <|-- BossEnemy
 AbstractEnemyAircraft <|-- EliteEnemy
@@ -23,10 +28,7 @@ AbstractEnemyAircraftFactory <|-- BossEnemyFactory
 AbstractEnemyAircraftFactory <|-- EliteEnemyFactory
 AbstractEnemyAircraftFactory <|-- MobEnemyFactory
 
-AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
-MobEnemy <|.. MobEnemyFactory
-BossEnemy <|.. BossEnemyFactory
-EliteEnemy <|.. EliteEnemyFactory
+
 
 class BossEnemy {
     - shootNum:int

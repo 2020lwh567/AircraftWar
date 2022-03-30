@@ -24,8 +24,9 @@ public class PropBomb extends AbstractProp{
             bullet.vanish();
         }
         for (AbstractAircraft aircraft : enemyaircraft){
-            if (!(aircraft instanceof BossEnemy))
+            if (!(aircraft instanceof BossEnemy)) {
                 aircraft.vanish();
+            }
         }
         System.out.println("BombSupply active!");
     }

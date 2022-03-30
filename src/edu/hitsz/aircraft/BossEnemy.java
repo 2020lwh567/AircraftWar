@@ -31,7 +31,7 @@ public class BossEnemy extends AbstractEnemyAircraft {
         super(locationX, locationY, speedX, speedY, hp);
     }
 
-    //包含向下和向上飞两种方向
+    /**包含向下和向上飞两种方向*/
     @Override
     public void forward() {
         super.forward();

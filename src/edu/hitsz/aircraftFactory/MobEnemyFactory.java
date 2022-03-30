@@ -5,7 +5,7 @@ import edu.hitsz.aircraft.MobEnemy;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
 
-//普通敌机产生工厂
+/**普通敌机产生工厂*/
 public class MobEnemyFactory extends AbstractEnemyAircraftFactory{
     @Override
     public AbstractEnemyAircraft createEnemyAircraft() {

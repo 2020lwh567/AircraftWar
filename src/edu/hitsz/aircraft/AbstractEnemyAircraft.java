@@ -15,14 +15,17 @@ public abstract class AbstractEnemyAircraft extends AbstractAircraft{
      */
     protected int direction = 1;
 
-    private AbstractPropFactory abstractPropFactory;//抽象的道具产生工厂
+    /**
+     * 抽象的道具产生工厂
+     */
+    private AbstractPropFactory abstractPropFactory;
 
     public AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY, hp);
     }
 
     @Override
-    //默认向下飞
+    /**默认向下飞*/
     public void forward() {
         super.forward();
         // 判定 y 轴向下飞行出界
@@ -31,20 +34,28 @@ public abstract class AbstractEnemyAircraft extends AbstractAircraft{
         }
     }
 
-    //产生道具
+    /**产生道具*/
     public AbstractProp generateProp(){
         AbstractProp prop = null;
 
         //以下三种道具获得概率相同
-        if (Math.random()<0.33){//获得加血道具
+        double prob1 = 1.0/3;
+        double prob2 = 2.0/3;
+
+        //获得加血道具
+        if (Math.random()<prob1){
             abstractPropFactory = new PropBloodFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }
-        else if(Math.random()>0.66){//获得炸弹道具
+
+        //获得炸弹道具
+        else if(Math.random()>prob2){
             abstractPropFactory = new PropBombFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }
-        else{//获得火力道具
+
+        //获得火力道具
+        else{
             abstractPropFactory = new PropBulletFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }

@@ -14,4 +14,6 @@ class HeroAircraft {
     + increaseFire(int increaseShootNum, int increasePower):void
 }
 
+HeroAircraft <|-- HeroAircraft
+
 @enduml

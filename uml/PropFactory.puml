@@ -42,6 +42,10 @@ AbstractProp <|-- PropBlood
 AbstractProp <|-- PropBomb
 AbstractProp <|-- PropBullet
 
+
+
+
+
 class PropBlood {
     - returnBlood:int
     + PropBlood(int locationX, int locationY)
