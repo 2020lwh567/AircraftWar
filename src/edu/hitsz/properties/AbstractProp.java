@@ -3,6 +3,7 @@ package edu.hitsz.properties;
 import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
+import edu.hitsz.application.Main;
 import edu.hitsz.basic.AbstractFlyingObject;
 import edu.hitsz.bullet.BaseBullet;
 
@@ -50,4 +51,13 @@ public abstract class AbstractProp extends AbstractFlyingObject {
      * @param enemybullet 所有敌机子弹的list
      * */
     public abstract void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet);
+
+    @Override
+    public void forward(){
+        super.forward();
+        // 判定 y 轴向下飞行出界
+        if (this.locationY >= Main.WINDOW_HEIGHT ) {
+            vanish();
+        }
+    }
 }

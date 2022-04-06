@@ -26,8 +26,8 @@ class EliteEnemyTest {
     static void testBeginner() {
         abstractProps = new LinkedList<>();
         eliteaircraft = new EliteEnemy(
-                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth()))*1,
-                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2)*1,
+                (int) ( Math.random() * (Main.WINDOW_WIDTH - ImageManager.ELITE_ENEMY_IMAGE.getWidth())),
+                (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 ((Math.random()>0.66)?1:(Math.random()>0.5?0:-1))*3,
                 5,
                 30

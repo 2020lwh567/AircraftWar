@@ -8,7 +8,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.lang.Enum.*;
 
 import static edu.hitsz.aircraft.HeroAircraft.getHeroAircraft;
 import static org.junit.jupiter.api.Assertions.*;
@@ -16,7 +15,6 @@ import static org.junit.jupiter.api.Assertions.*;
 class HeroAircraftTest {
     private static HeroAircraft heroaircraft;
 
-//    public final int ordinal();
 //    @org.junit.jupiter.api.Test
 //    void shoot() {
 //    }
@@ -122,24 +120,23 @@ class HeroAircraftTest {
 
     @Test
     void testCrash(){
-        int locationX = heroaircraft.getLocationX();//256
-        int locatoionY = heroaircraft.getLocationY();//685
-        int width = heroaircraft.getWidth();//100
-        int height = heroaircraft.getHeight();//83
-//        System.out.printf("%d %d %d %d ", locationX, locatoionY, width, height);
+//        int locationX = heroaircraft.getLocationX();//256
+//        int locatoionY = heroaircraft.getLocationY();//685
+//        int width = heroaircraft.getWidth();//100
+//        int height = heroaircraft.getHeight();//83
+
         AbstractAircraft eliteAircraft1 = new EliteEnemy(357, 720, 1, 0, 20);//精英敌机,碰撞成功
-//        int width2 = eliteAircraft1.getWidth();//105
-//        int height2 = eliteAircraft1.getHeight();//68
-//        System.out.printf("%d %d", width2, height2);
         assertTrue(heroaircraft.crash(eliteAircraft1));
         AbstractAircraft eliteAircraft2 = new EliteEnemy(154, 700, 1, 0, 20);//精英敌机,碰撞失败
         assertFalse(heroaircraft.crash(eliteAircraft2));
+//        int width2 = eliteAircraft1.getWidth();//105
+//        int height2 = eliteAircraft1.getHeight();//68
+
         EnemyBullet bullet1 = new EnemyBullet(202,693,1,1,20);//敌机子弹,碰撞成功
-//        int width3 = bullet1.getWidth();//10
-//        int height3 = bullet1.getHeight();//18
-//        System.out.printf("%d %d",width3, height3);
         assertTrue(heroaircraft.crash(bullet1));
         EnemyBullet bullet2 = new EnemyBullet(212,593,1,1,20);//敌机子弹,碰撞失败
         assertFalse(heroaircraft.crash(bullet2));
+//        int width3 = bullet1.getWidth();//10
+//        int height3 = bullet1.getHeight();//18
     }
 }
