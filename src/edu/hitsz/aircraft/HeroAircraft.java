@@ -31,6 +31,26 @@ public class HeroAircraft extends AbstractAircraft {
      */
     private int direction = -1;
 
+    public int getShootNum(){
+        return this.shootNum;
+    }
+
+    public int getDirection(){
+        return direction;
+    }
+
+    public int getBulletPower() {
+        return power;
+    }
+
+    public void setHp(int hp){
+        this.hp = hp;
+    }
+
+    public void setShootNum(int num){
+        this.shootNum = num;
+    }
+
     /**
      * 唯一实例
      */
@@ -76,7 +96,7 @@ public class HeroAircraft extends AbstractAircraft {
         int x = this.getLocationX();
         int y = this.getLocationY() + direction*2;
         int speedX = 0;
-        int speedY = this.getSpeedY() + direction*5;
+        int speedY = direction*5;
         BaseBullet abstractBullet;
         for(int i=0; i<shootNum; i++){
             // 子弹发射位置相对飞机位置向前偏移
