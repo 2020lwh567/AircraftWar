@@ -40,16 +40,17 @@ public abstract class AbstractEnemyAircraft extends AbstractAircraft{
 
         //以下三种道具获得概率相同
         double prob1 = 1.0/3;
-        double prob2 = 2.0/3;
+        double prob2 = prob1*2;
+        double num = Math.random();
 
         //获得加血道具
-        if (Math.random()<prob1){
+        if (num<prob1){
             abstractPropFactory = new PropBloodFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }
 
         //获得炸弹道具
-        else if(Math.random()>prob2){
+        else if(num>prob2){
             abstractPropFactory = new PropBombFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }

@@ -54,4 +54,16 @@ public class EliteEnemy extends AbstractEnemyAircraft {
         }
         return prop;
     }
+
+    public void setShootNum(int num){
+        this.shootNum = num;
+    }
+
+    public int getDirection() {
+        return this.direction;
+    }
+
+    public int getBulletPower() {
+        return this.power;
+    }
 }

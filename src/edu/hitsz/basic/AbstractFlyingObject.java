@@ -131,7 +131,7 @@ public abstract class AbstractFlyingObject {
         return speedY;
     }
 
-    public int getSpeedX(){
+    public int getSpeedX() {
         return speedX;
     }
 

@@ -121,7 +121,7 @@ class HeroAircraftTest {
     }
 
     @Test
-    void testcrash(){
+    void testCrash(){
         int locationX = heroaircraft.getLocationX();//256
         int locatoionY = heroaircraft.getLocationY();//685
         int width = heroaircraft.getWidth();//100

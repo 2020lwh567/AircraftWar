@@ -18,10 +18,6 @@ public class BaseBullet extends AbstractFlyingObject {
         this.power = power;
     }
 
-    public int getSpeedX (){
-        return speedX;
-    }
-
     @Override
     public void forward() {
         super.forward();
