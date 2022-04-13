@@ -9,7 +9,7 @@ import edu.hitsz.bullet.HeroBullet;
 import java.util.LinkedList;
 import java.util.List;
 
-public class scatterShootStrategy implements shootStrategyInterface {
+public class ScatterShootStrategy implements ShootStrategyInterface {
     @Override
     public List<BaseBullet> shoot(AbstractAircraft aircraft) {
         List<BaseBullet> res = new LinkedList<>();

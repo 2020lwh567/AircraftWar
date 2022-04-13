@@ -6,7 +6,7 @@ import edu.hitsz.propFactory.PropBloodFactory;
 import edu.hitsz.propFactory.PropBombFactory;
 import edu.hitsz.propFactory.PropBulletFactory;
 import edu.hitsz.properties.AbstractProp;
-import edu.hitsz.shootStragety.shootStrategyInterface;
+import edu.hitsz.shootStragety.ShootStrategyInterface;
 
 public abstract class AbstractEnemyAircraft extends AbstractAircraft{
     /**攻击方式 */
@@ -25,7 +25,7 @@ public abstract class AbstractEnemyAircraft extends AbstractAircraft{
         super(locationX, locationY, speedX, speedY, hp);
     }
 
-    public AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, shootStrategyInterface shootStrategy) {
+    public AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         super(locationX, locationY, speedX, speedY, hp, shootNum, power, shootStrategy);
     }
 

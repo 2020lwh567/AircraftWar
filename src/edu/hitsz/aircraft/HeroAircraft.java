@@ -2,13 +2,8 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.HeroBullet;
-import edu.hitsz.shootStragety.directShootStrategy;
-import edu.hitsz.shootStragety.shootStrategyInterface;
-
-import java.util.LinkedList;
-import java.util.List;
+import edu.hitsz.shootStragety.DirectShootStrategy;
+import edu.hitsz.shootStragety.ShootStrategyInterface;
 
 /**
  * 英雄飞机，游戏玩家操控
@@ -39,7 +34,7 @@ public class HeroAircraft extends AbstractAircraft {
      * @param hp    初始生命值
      * 构造函数私有化
      */
-    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, shootStrategyInterface shootStrategy) {
+    private HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         super(locationX, locationY, speedX, speedY, hp, shootNum, power, shootStrategy);
         this.direction = -1;
     }
@@ -50,7 +45,7 @@ public class HeroAircraft extends AbstractAircraft {
                 if (heroAircraft == null){
                     heroAircraft = new HeroAircraft(Main.WINDOW_WIDTH / 2,
                             Main.WINDOW_HEIGHT - ImageManager.HERO_IMAGE.getHeight() ,
-                            0, 0, 100, 1, 30, new directShootStrategy());
+                            0, 0, 100, 1, 30, new DirectShootStrategy());
                 }
             }
         }

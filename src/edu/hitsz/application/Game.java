@@ -7,12 +7,17 @@ import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
 import edu.hitsz.aircraftFactory.BossEnemyFactory;
 import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
+import edu.hitsz.playerDataBase.Player;
+import edu.hitsz.playerDataBase.PlayerDao;
+import edu.hitsz.playerDataBase.PlayerDaoImpl;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
@@ -154,6 +159,10 @@ public class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
+                PlayerDao playerDao = new PlayerDaoImpl();
+                playerDao.add(new Player("user", score, getCurrentTime()));
+                playerDao.showLeaderboard();
+
                 System.out.println("Game Over!");
             }
 
@@ -309,6 +318,13 @@ public class Game extends JPanel {
             }
         }
     }
+
+    /**获取当前时间*/
+    private String getCurrentTime(){
+        LocalDateTime dateTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        return dateTime.format(formatter);
+    }
     /**
      * 后处理：
      * 1. 删除无效的子弹
@@ -390,6 +406,4 @@ public class Game extends JPanel {
         y = y + 20;
         g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
     }
-
-
 }

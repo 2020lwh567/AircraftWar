@@ -4,7 +4,7 @@ import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.BossEnemy;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
-import edu.hitsz.shootStragety.scatterShootStrategy;
+import edu.hitsz.shootStragety.ScatterShootStrategy;
 
 public class BossEnemyFactory extends AbstractEnemyAircraftFactory{
     @Override
@@ -17,7 +17,7 @@ public class BossEnemyFactory extends AbstractEnemyAircraftFactory{
                 150,
                 3,
                 30,
-                new scatterShootStrategy()
+                new ScatterShootStrategy()
         );
     }
 }

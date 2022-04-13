@@ -5,6 +5,6 @@ import edu.hitsz.bullet.BaseBullet;
 
 import java.util.List;
 
-public interface shootStrategyInterface {
+public interface ShootStrategyInterface {
     public List<BaseBullet> shoot(AbstractAircraft aircraft);
 }

@@ -1,13 +1,7 @@
 package edu.hitsz.aircraft;
 
 import edu.hitsz.application.Main;
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.EnemyBullet;
-import edu.hitsz.shootStragety.scatterShootStrategy;
-import edu.hitsz.shootStragety.shootStrategyInterface;
-
-import java.util.LinkedList;
-import java.util.List;
+import edu.hitsz.shootStragety.ShootStrategyInterface;
 
 public class BossEnemy extends AbstractEnemyAircraft {
     /**攻击方式 */
@@ -19,7 +13,7 @@ public class BossEnemy extends AbstractEnemyAircraft {
      * @param speedY boss机射出的子弹的基准速度（boss机无特定速度）
      * @param hp    初始生命值，默认无穷大
      */
-    public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, shootStrategyInterface shootStrategy) {
+    public BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         super(locationX, locationY, speedX, speedY, hp, shootNum, power, shootStrategy);
     }
 

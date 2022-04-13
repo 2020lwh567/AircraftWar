@@ -1,17 +1,11 @@
 package edu.hitsz.aircraft;
 
-import edu.hitsz.bullet.BaseBullet;
-import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.properties.AbstractProp;
-import edu.hitsz.shootStragety.directShootStrategy;
-import edu.hitsz.shootStragety.shootStrategyInterface;
-
-import java.util.LinkedList;
-import java.util.List;
+import edu.hitsz.shootStragety.ShootStrategyInterface;
 
 public class EliteEnemy extends AbstractEnemyAircraft {
 
-    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, shootStrategyInterface shootStrategy) {
+    public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         super(locationX, locationY, speedX, speedY, hp, shootNum, power, shootStrategy);
     }
 

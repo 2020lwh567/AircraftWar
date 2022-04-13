@@ -4,7 +4,7 @@ import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.EliteEnemy;
 import edu.hitsz.application.ImageManager;
 import edu.hitsz.application.Main;
-import edu.hitsz.shootStragety.directShootStrategy;
+import edu.hitsz.shootStragety.DirectShootStrategy;
 
 public class EliteEnemyFactory extends AbstractEnemyAircraftFactory{
     @Override
@@ -17,7 +17,7 @@ public class EliteEnemyFactory extends AbstractEnemyAircraftFactory{
                 30,
                 1,
                 20,
-                new directShootStrategy()
+                new DirectShootStrategy()
         );
     }
 }
