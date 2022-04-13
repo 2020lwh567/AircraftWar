@@ -7,9 +7,9 @@ import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
 import edu.hitsz.aircraftFactory.BossEnemyFactory;
 import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
-import edu.hitsz.playerDataBase.Player;
-import edu.hitsz.playerDataBase.PlayerDao;
-import edu.hitsz.playerDataBase.PlayerDaoImpl;
+import edu.hitsz.playerDatabase.Player;
+import edu.hitsz.playerDatabase.PlayerDao;
+import edu.hitsz.playerDatabase.PlayerDaoImpl;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 

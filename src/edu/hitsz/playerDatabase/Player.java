@@ -1,6 +1,6 @@
-package edu.hitsz.playerDataBase;
+package edu.hitsz.playerDatabase;
 
-public class Player {
+public class Player implements Comparable<Player>{
     private String testUserName;
     private int score;
     private String time;
@@ -21,5 +21,10 @@ public class Player {
 
     public String getTime() {
         return this.time;
+    }
+
+    @Override
+    public int compareTo(Player player){
+        return player.score - this.score;
     }
 }

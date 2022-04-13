@@ -1,4 +1,4 @@
-package edu.hitsz.playerDataBase;
+package edu.hitsz.playerDatabase;
 
 import java.util.List;
 
