@@ -4,6 +4,8 @@ import edu.hitsz.aircraft.AbstractAircraft;
 import edu.hitsz.aircraft.AbstractEnemyAircraft;
 import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.bullet.BaseBullet;
+import edu.hitsz.shootStragety.directShootStrategy;
+import edu.hitsz.shootStragety.scatterShootStrategy;
 
 import java.util.List;
 
@@ -29,6 +31,7 @@ public class PropBullet extends AbstractProp{
     @Override
     public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         heroaircraft.increaseFire(increaseShootNum, increasePower);
+        heroaircraft.setStrategy(new scatterShootStrategy());
         System.out.println("FireSupply active!");
     }
 
@@ -47,5 +50,9 @@ public class PropBullet extends AbstractProp{
     public void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
         heroaircraft.increaseFire(-increaseShootNum, -increasePower);
         System.out.println("FireSupply exceeds time limit!");
+
+        if (heroaircraft.getShootNum()==1){
+            heroaircraft.setStrategy(new directShootStrategy());
+        }
     }
 }
