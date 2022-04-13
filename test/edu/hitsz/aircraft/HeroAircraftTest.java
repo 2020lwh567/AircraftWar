@@ -2,6 +2,7 @@ package edu.hitsz.aircraft;
 
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.bullet.EnemyBullet;
+import edu.hitsz.shootStragety.directShootStrategy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -125,9 +126,9 @@ class HeroAircraftTest {
 //        int width = heroaircraft.getWidth();//100
 //        int height = heroaircraft.getHeight();//83
 
-        AbstractAircraft eliteAircraft1 = new EliteEnemy(357, 720, 1, 0, 20);//精英敌机,碰撞成功
+        AbstractAircraft eliteAircraft1 = new EliteEnemy(357, 720, 1, 0, 20, 1, 20, new directShootStrategy());//精英敌机,碰撞成功
         assertTrue(heroaircraft.crash(eliteAircraft1));
-        AbstractAircraft eliteAircraft2 = new EliteEnemy(154, 700, 1, 0, 20);//精英敌机,碰撞失败
+        AbstractAircraft eliteAircraft2 = new EliteEnemy(154, 700, 1, 0, 20, 1, 20, new directShootStrategy());//精英敌机,碰撞失败
         assertFalse(heroaircraft.crash(eliteAircraft2));
 //        int width2 = eliteAircraft1.getWidth();//105
 //        int height2 = eliteAircraft1.getHeight();//68

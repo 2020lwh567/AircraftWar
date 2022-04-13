@@ -7,6 +7,7 @@ import edu.hitsz.properties.AbstractProp;
 import edu.hitsz.properties.PropBlood;
 import edu.hitsz.properties.PropBomb;
 import edu.hitsz.properties.PropBullet;
+import edu.hitsz.shootStragety.directShootStrategy;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,10 @@ class EliteEnemyTest {
                 (int) (Math.random() * Main.WINDOW_HEIGHT * 0.2),
                 ((Math.random()>0.66)?1:(Math.random()>0.5?0:-1))*3,
                 5,
-                30
+                30,
+                1,
+                20,
+                new directShootStrategy()
         );
     }
 
