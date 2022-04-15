@@ -47,7 +47,7 @@ class BaseBullet
 abstract class AbstractProp
 {
     - startTime:int
-    - linitTime:int
+    - limitTime:int
     + AbstractProp(int locationX, int locationY)
     + setStartTime(int startTime):void
     + getStartTime():int
@@ -143,7 +143,7 @@ class PropBomb {
 class PropBullet {
     - increaseShootNum:int
     - increasePower:int
-    - linitTime:int
+    - limitTime:int
     + PropBullet(int locationX, int locationY)
     + operate(HeroAircraft heroaircraft, List<AbstractAircraft> enemyaircraft,
     List<BaseBullet> enemybullet):void

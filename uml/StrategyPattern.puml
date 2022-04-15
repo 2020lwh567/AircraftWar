@@ -1,0 +1,62 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractAircraft
+{
+	# maxHp:int
+    # hp:int
+    # shootStrategy:ShootStrategyInterface
+    # shootNum:int
+    # power:int
+    # direction:int
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
+    + decreaseHp(int decrease):void
+    + setStrategy(ShootStrategyInterface strategy):void
+    + shoot():List<BaseBullet>
+}
+
+interface ShootStrategyInterface {
+    + shoot(AbstractAircraft aircraft):List<BaseBullet>
+}
+
+AbstractAircraft <.up. BossEnemyFactory
+AbstractAircraft <.up. EliteEnemyFactory
+AbstractAircraft <.up. game
+AbstractAircraft <.up. PropBullet
+AbstractAircraft <.down. HeroAircraft
+AbstractAircraft o--> ShootStrategyInterface
+ShootStrategyInterface <|.. DirectShootStrategy
+ShootStrategyInterface <|.. ScatterShootStrategy
+
+class HeroAircraft {
+    - {static} heroAircraft:HeroAircraft
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
+    + {static} getHeroAircraft():HeroAircraft
+}
+
+class EliteEnemyFactory {
+    + createEnemyAircraft():AbstractEnemyAircraft
+}
+
+class BossEnemyFactory {
+    + createEnemyAircraft():AbstractEnemyAircraft
+}
+
+class DirectShootStrategy {
+    + shoot(AbstractAircraft aircraft):List<BaseBullet>
+}
+
+class ScatterShootStrategy {
+    + shoot(AbstractAircraft aircraft):List<BaseBullet>
+}
+
+class game{
+    - shootAction():void
+}
+
+class PropBullet{
+    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet):void
+}
+
+@enduml

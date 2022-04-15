@@ -23,12 +23,14 @@ public abstract class AbstractAircraft extends AbstractFlyingObject {
     protected int power = 0;
     protected int direction = 1;
 
+    /**不发射子弹的飞机构造函数*/
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp) {
         super(locationX, locationY, speedX, speedY);
         this.hp = hp;
         this.maxHp = hp;
     }
 
+    /**发射子弹的飞机构造函数*/
     public AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         this(locationX, locationY, speedX, speedY, hp);
         this.shootNum = shootNum;
