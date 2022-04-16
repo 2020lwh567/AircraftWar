@@ -159,8 +159,11 @@ public class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
+
+                //写入csv文件
                 PlayerDao playerDao = new PlayerDaoImpl();
                 playerDao.add(new Player("user", score, getCurrentTime()));
+                //输出到控制台
                 playerDao.showLeaderboard();
 
                 System.out.println("Game Over!");
@@ -221,7 +224,6 @@ public class Game extends JPanel {
             enemyAircraft.forward();
         }
     }
-
 
     /**
      * 碰撞检测：
