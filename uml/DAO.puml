@@ -10,7 +10,7 @@ interface PlayerDao{
 
 PlayerDao <|.. PlayerDaoImpl
 PlayerDao <.left. game
-Player <|-right- PlayerDaoImpl
+Player <-right- PlayerDaoImpl
 
 class PlayerDaoImpl {
     - players: List<Player>
