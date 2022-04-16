@@ -1,0 +1,41 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+interface PlayerDao{
+    + getAllPlayers():List<Player>
+    + add(Player player):void
+    + delete(Player player):void
+    + showLeaderboard():void
+}
+
+PlayerDao <|.. PlayerDaoImpl
+PlayerDao <.left. game
+Player <|-right- PlayerDaoImpl
+
+class PlayerDaoImpl {
+    - players: List<Player>
+    + PlayerDaoImpl()
+    + getAllPlayers():List<Player>
+    + add(Player player):void
+    + delete(Player player):void
+    + showLeaderboard():void
+    + {static} readCsv(String path):LinkedList<Player>
+    + {static} writeCsv(List<Player> playerList, String filePath):void
+}
+
+class Player {
+    - testUserName:String
+    - score:int
+    - time:String
+    + Player(String testUserName, int score, String time)
+    + getTestUserName():String
+    + getScore():int
+    + getTime():String
+    + compareTo(Player player):int
+}
+
+class game {
+    + action():void
+}
+
+@enduml
