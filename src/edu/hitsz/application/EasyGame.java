@@ -4,9 +4,9 @@ import java.awt.*;
 
 public class EasyGame extends Game{
     public EasyGame(boolean musicOn) {
+        super(musicOn);
         System.out.println("进入简单模式");
         setDifficulty(1);
-        setMusicFlag(musicOn);
     }
 
     @Override

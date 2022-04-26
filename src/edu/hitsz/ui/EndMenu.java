@@ -70,6 +70,8 @@ public class EndMenu extends JPanel {
 
                         // 从显示的列表中删除
                         removeTotal();
+
+                        //重新展示画面
                         showEndPanel(difficult);
                         mainFrame.revalidate();
                     }

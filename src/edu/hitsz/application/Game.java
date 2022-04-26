@@ -7,9 +7,7 @@ import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
 import edu.hitsz.aircraftFactory.BossEnemyFactory;
 import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
-import edu.hitsz.playerDatabase.Player;
-import edu.hitsz.playerDatabase.PlayerDao;
-import edu.hitsz.playerDatabase.PlayerDaoImpl;
+import edu.hitsz.music.MusicThread;
 import edu.hitsz.properties.AbstractProp;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
@@ -79,12 +77,15 @@ public abstract class Game extends JPanel {
     private int nextScoreOfBoss = cycleScoreOfBoss;
 
     /**是否开启音乐*/
-    private boolean musicOn = false;
+    private static boolean musicOn = false;
 
     /**游戏难度*/
     private int difficulty;
 
-    public Game() {
+    private MusicThread bgmThread;
+    private MusicThread bossThread;
+
+    public Game(boolean musicOn) {
         heroAircraft = HeroAircraft.getHeroAircraft();
 
         enemyAircrafts = new LinkedList<>();
@@ -104,13 +105,22 @@ public abstract class Game extends JPanel {
         //启动英雄机鼠标监听
         new HeroController(this, heroAircraft);
 
+        Game.musicOn = musicOn;
+        if(musicOn){
+            bgmThread = new MusicThread("src/videos/bgm.wav", 1);
+            bossThread = new MusicThread("src/videos/bgm_boss.wav", 1);
+        }
     }
 
     /**
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
+
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
+        if (musicOn){
+            bgmThread.start();
+        }
         Runnable task = () -> {
 
             time += timeInterval;
@@ -160,6 +170,9 @@ public abstract class Game extends JPanel {
             //每个时刻重绘界面
             repaint();
 
+            //检查音乐
+            checkMusic();
+
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
                 // 游戏结束
@@ -186,6 +199,10 @@ public abstract class Game extends JPanel {
          * 本次任务执行完成后，需要延迟设定的延迟时间，才会执行新的任务
          */
         executorService.scheduleWithFixedDelay(task, timeInterval, timeInterval, TimeUnit.MILLISECONDS);
+
+    }
+
+    private void checkMusic() {
 
     }
 
@@ -435,5 +452,9 @@ public abstract class Game extends JPanel {
 
     public int getScore() {
         return score;
+    }
+
+    public boolean getNusicOn(){
+        return musicOn;
     }
 }

@@ -14,7 +14,8 @@ public class CreateGamePanel {
     }
 
     public static void setMusicOn(int x){
-        musicOn = (x==1);
+        musicOn = (x==0);
+
     }
 
     public static Game createGamePanel(){
