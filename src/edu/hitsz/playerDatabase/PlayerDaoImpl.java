@@ -1,5 +1,7 @@
 package edu.hitsz.playerDatabase;
 
+import edu.hitsz.application.Game;
+
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -8,9 +10,12 @@ import java.util.List;
 
 public class PlayerDaoImpl implements PlayerDao{
     private List<Player> players;
-    String filePath = "./src/edu/hitsz/playerDataBase/playerData.csv";
+    public static String filePath = "./src/edu/hitsz/playerDataBase/";
 
-    public PlayerDaoImpl() {
+    public PlayerDaoImpl(int difficulty) {
+        if(!filePath.contains(".csv")){
+            filePath +="playerData"+String.valueOf(difficulty)+".csv";
+        }
         try{
             //导入历史用户数据
             players = readCsv(filePath);
@@ -29,15 +34,23 @@ public class PlayerDaoImpl implements PlayerDao{
     @Override
     public void add(Player player) {
         players.add(player);
+        System.out.printf("添加后，元素有%d个\n",players.size());
+        sort();
+        writeCsv(players, filePath);
+    }
 
+    @Override
+    public void sort(){
         //按照分数从高到低排序
         Collections.sort(players);
     }
 
     @Override
-    public void delete(Player player) {
-        //该函数暂时没用到
-        players.remove(player);
+    public void delete(int playerIndex) {
+        players.remove(playerIndex);
+        System.out.printf("删除后，元素有%d个\n",players.size());
+        sort();
+        writeCsv(players, filePath);
     }
 
     @Override
@@ -72,7 +85,7 @@ public class PlayerDaoImpl implements PlayerDao{
                 Player player = new Player(rows[1], Integer.parseInt(rows[2]), rows[3]);
                 list.add(player);
             }
-            System.out.printf("读入文件 %s\n", path);
+            System.out.printf("读文件 %s\n", path);
         }
         // 当文件不存在时，将异常上报到上层处理
         catch (IOException e) {
@@ -110,7 +123,7 @@ public class PlayerDaoImpl implements PlayerDao{
             bw.close();
             osw.close();
             fos.close();
-            System.out.printf("写出文件 %s\n",filePath);
+            System.out.printf("写文件 %s\n",filePath);
         } catch (Exception e) {
             e.printStackTrace();
         }

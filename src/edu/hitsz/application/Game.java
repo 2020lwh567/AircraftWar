@@ -81,6 +81,9 @@ public abstract class Game extends JPanel {
     /**是否开启音乐*/
     private boolean musicOn = false;
 
+    /**游戏难度*/
+    private int difficulty;
+
     public Game() {
         heroAircraft = HeroAircraft.getHeroAircraft();
 
@@ -107,7 +110,6 @@ public abstract class Game extends JPanel {
      * 游戏启动入口，执行游戏逻辑
      */
     public void action() {
-
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         Runnable task = () -> {
 
@@ -115,26 +117,25 @@ public abstract class Game extends JPanel {
 
             // 周期性执行（控制频率）
             if (timeCountAndNewCycleJudge()) {
-                System.out.println("time:"+time);
+                System.out.println("time:" + time);
                 // 新敌机（精英敌机和普通敌机）产生
                 if (enemyAircrafts.size() < enemyMaxNumber) {
                     //以0.2概率产生精英敌机，0.8概率产生普通敌机
-                    double prob = 1.0/5;
-                    if(Math.random()>=prob){
+                    double prob = 1.0 / 5;
+                    if (Math.random() >= prob) {
                         abstractEnemyAircraftFactory = new MobEnemyFactory();
                         enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
-                    }
-                    else{
+                    } else {
                         abstractEnemyAircraftFactory = new EliteEnemyFactory();
                         enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     }
                 }
                 //分数达到设定阈值的倍数，出现boss敌机
-                if (score > nextScoreOfBoss && score/cycleScoreOfBoss > numOfBoss){
+                if (score > nextScoreOfBoss && score / cycleScoreOfBoss > numOfBoss) {
                     abstractEnemyAircraftFactory = new BossEnemyFactory();
                     enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
-                    numOfBoss ++;
-                    nextScoreOfBoss +=cycleScoreOfBoss;
+                    numOfBoss++;
+                    nextScoreOfBoss += cycleScoreOfBoss;
                 }
 
                 // 飞机射出子弹
@@ -165,14 +166,17 @@ public abstract class Game extends JPanel {
                 executorService.shutdown();
                 gameOverFlag = true;
 
-                //写入csv文件
-                PlayerDao playerDao = new PlayerDaoImpl();
-                playerDao.add(new Player("user", score, getCurrentTime()));
-                //输出到控制台
-                playerDao.showLeaderboard();
+//                //写入csv文件
+//                PlayerDao playerDao = new PlayerDaoImpl(difficulty);
+//                playerDao.add(new Player("user", score, getCurrentTime()));
+//                playerDao.sort();
+//                //输出到控制台
+//                playerDao.showLeaderboard();
 
                 System.out.println("Game Over!");
-                obj.notifyAll();
+                synchronized(obj) {
+                    obj.notifyAll();
+                }
             }
 
         };
@@ -328,7 +332,7 @@ public abstract class Game extends JPanel {
     }
 
     /**获取当前时间*/
-    private String getCurrentTime(){
+    public String getCurrentTime(){
         LocalDateTime dateTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         return dateTime.format(formatter);
@@ -419,5 +423,17 @@ public abstract class Game extends JPanel {
 
     public void setMusicFlag(boolean flag){
         musicOn = flag;
+    }
+
+    public void setDifficulty(int x){
+        difficulty = x;
+    }
+
+    public int getDifficulty(){
+        return difficulty;
+    }
+
+    public int getScore() {
+        return score;
     }
 }

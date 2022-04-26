@@ -1,5 +1,6 @@
 package edu.hitsz.application;
 
+import edu.hitsz.ui.EndMenu;
 import edu.hitsz.ui.StartMenu;
 import edu.hitsz.ui.CreateGamePanel;
 
@@ -15,6 +16,7 @@ public class Main {
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
     public static final Object obj = new Object();
+    public static JFrame mainFrame;
 
     public static void main(String[] args) {
 
@@ -22,13 +24,13 @@ public class Main {
 
         // 获得屏幕的分辨率，初始化 Frame
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        JFrame frame = new JFrame("Aircraft War");
-        frame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.setResizable(false);
+        mainFrame = new JFrame("Aircraft War");
+        mainFrame.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
+        mainFrame.setResizable(false);
         //设置窗口的大小和位置,居中放置
-        frame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, 0,
+        mainFrame.setBounds(((int) screenSize.getWidth() - WINDOW_WIDTH) / 2, 0,
                 WINDOW_WIDTH, WINDOW_HEIGHT);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         synchronized (obj){
             try {
@@ -38,18 +40,26 @@ public class Main {
 //                }
                 // 进入菜单界面
                 StartMenu menuPanel = new StartMenu();
-                frame.add(menuPanel);
-                frame.setVisible(true);
+                mainFrame.add(menuPanel);
+                mainFrame.setVisible(true);
                 obj.wait();
-                frame.remove(menuPanel);
+                mainFrame.remove(menuPanel);
 
                 //进入游戏界面
                 Game game = CreateGamePanel.createGamePanel();
-                frame.add(game);
-                frame.setVisible(true);
+                mainFrame.add(game);
+                mainFrame.setVisible(true);
                 game.action();
                 obj.wait();
+                mainFrame.remove(game);
 
+                System.out.println("back main");
+
+                //进入得分界面
+                EndMenu endMenu = new EndMenu(game.getDifficulty());
+                endMenu.addJPanel(endMenu);
+                mainFrame.setVisible(true);
+                endMenu.showPopUps(game.getScore(), game.getCurrentTime(), game.getDifficulty());
 
             } catch (InterruptedException e) {
                 e.printStackTrace();

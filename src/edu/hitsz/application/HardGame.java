@@ -5,6 +5,7 @@ import java.awt.*;
 public class HardGame extends Game{
     public HardGame(boolean musicOn) {
         System.out.println("进入困难模式");
+        setDifficulty(3);
         setMusicFlag(musicOn);
     }
 
