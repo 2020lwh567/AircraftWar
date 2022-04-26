@@ -76,6 +76,9 @@ public class Game extends JPanel {
     /**下次出现boss机的分数*/
     private int nextScoreOfBoss = cycleScoreOfBoss;
 
+    /**是否开启音乐*/
+    private boolean musicOn = false;
+
     public Game() {
         heroAircraft = HeroAircraft.getHeroAircraft();
 
@@ -407,5 +410,9 @@ public class Game extends JPanel {
         g.drawString("SCORE:" + this.score, x, y);
         y = y + 20;
         g.drawString("LIFE:" + this.heroAircraft.getHp(), x, y);
+    }
+
+    public void setMusicFlag(boolean flag){
+        musicOn = flag;
     }
 }

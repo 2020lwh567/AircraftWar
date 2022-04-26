@@ -1,5 +1,8 @@
 package edu.hitsz.application;
 
+import edu.hitsz.ui.StartMenu;
+import edu.hitsz.ui.CreateGamePanel;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -11,6 +14,7 @@ public class Main {
 
     public static final int WINDOW_WIDTH = 512;
     public static final int WINDOW_HEIGHT = 768;
+    public static final Object obj = new Object();
 
     public static void main(String[] args) {
 
@@ -26,9 +30,32 @@ public class Main {
                 WINDOW_WIDTH, WINDOW_HEIGHT);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        Game game = new Game();
-        frame.add(game);
-        frame.setVisible(true);
-        game.action();
+        synchronized (obj){
+            try {
+                synchronized (obj){
+                    System.out.println("before menu");
+                    obj.notifyAll();
+                }
+
+                StartMenu menuPanel = new StartMenu();
+                frame.add(menuPanel);
+                frame.setVisible(true);
+                obj.wait();
+                frame.remove(menuPanel);
+
+                Game game = CreateGamePanel.createGamePanel();
+                frame.add(game);
+                frame.setVisible(true);
+                game.action();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+
+//        Game game = new Game();
+//        frame.add(game);
+//
+//        game.action();
     }
 }
