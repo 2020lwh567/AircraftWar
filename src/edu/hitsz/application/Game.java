@@ -22,14 +22,16 @@ import java.util.*;
 import java.util.List;
 import java.util.concurrent.*;
 
+import static edu.hitsz.application.Main.obj;
+
 /**
  * 游戏主面板，游戏启动
  *
  * @author hitsz
  */
-public class Game extends JPanel {
+public abstract class Game extends JPanel {
 
-    private int backGroundTop = 0;
+    protected int backGroundTop = 0;
 
     /**
      * Scheduled 线程池，用于任务调度
@@ -170,6 +172,7 @@ public class Game extends JPanel {
                 playerDao.showLeaderboard();
 
                 System.out.println("Game Over!");
+                obj.notifyAll();
             }
 
         };
@@ -364,9 +367,8 @@ public class Game extends JPanel {
     public void paint(Graphics g) {
         super.paint(g);
 
-        // 绘制背景,图片滚动
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop - Main.WINDOW_HEIGHT, null);
-        g.drawImage(ImageManager.BACKGROUND_IMAGE, 0, this.backGroundTop, null);
+        // 调用子类函数，绘制背景图片
+        drawBackground(g);
         this.backGroundTop += 1;
         if (this.backGroundTop == Main.WINDOW_HEIGHT) {
             this.backGroundTop = 0;
@@ -388,6 +390,9 @@ public class Game extends JPanel {
         paintScoreAndLife(g);
 
     }
+
+    /**绘制背景图片，放在子类完成*/
+    public abstract void drawBackground(Graphics g);
 
     private void paintImageWithPositionRevised(Graphics g, List<? extends AbstractFlyingObject> objects) {
         if (objects.size() == 0) {

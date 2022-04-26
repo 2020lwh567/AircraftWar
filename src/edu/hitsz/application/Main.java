@@ -32,30 +32,28 @@ public class Main {
 
         synchronized (obj){
             try {
-                synchronized (obj){
-                    System.out.println("before menu");
-                    obj.notifyAll();
-                }
-
+//                synchronized (obj){
+//                    System.out.println("before menu");
+//                    obj.notifyAll();
+//                }
+                // 进入菜单界面
                 StartMenu menuPanel = new StartMenu();
                 frame.add(menuPanel);
                 frame.setVisible(true);
                 obj.wait();
                 frame.remove(menuPanel);
 
+                //进入游戏界面
                 Game game = CreateGamePanel.createGamePanel();
                 frame.add(game);
                 frame.setVisible(true);
                 game.action();
+                obj.wait();
+
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-
-
-//        Game game = new Game();
-//        frame.add(game);
-//
-//        game.action();
     }
 }
