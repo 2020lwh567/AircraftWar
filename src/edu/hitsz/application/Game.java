@@ -71,7 +71,7 @@ public abstract class Game extends JPanel {
     private int numOfBoss = 0;
 
     /**boss机出现的分数周期*/
-    private int cycleScoreOfBoss = 300;
+    private int cycleScoreOfBoss = 150;
 
     /**下次出现boss机的分数*/
     private int nextScoreOfBoss = cycleScoreOfBoss;
@@ -84,6 +84,14 @@ public abstract class Game extends JPanel {
 
     private MusicThread bgmThread;
     private MusicThread bossThread;
+    private MusicThread bulletHitThread;
+
+    /**当前运行的音乐线程*/
+    private List<MusicThread> musicThreadRunningList;
+
+    public static final Object musicObj = new Object();
+
+    private boolean bossExistFlag;
 
     public Game(boolean musicOn) {
         heroAircraft = HeroAircraft.getHeroAircraft();
@@ -93,6 +101,8 @@ public abstract class Game extends JPanel {
         enemyBullets = new LinkedList<>();
         props = new LinkedList<>();
         usingProps = new LinkedList<>();
+
+        musicThreadRunningList = new LinkedList<>();
 
         /**
          * Scheduled 线程池，用于定时任务调度
@@ -106,10 +116,7 @@ public abstract class Game extends JPanel {
         new HeroController(this, heroAircraft);
 
         Game.musicOn = musicOn;
-        if(musicOn){
-            bgmThread = new MusicThread("src/videos/bgm.wav", 1);
-            bossThread = new MusicThread("src/videos/bgm_boss.wav", 1);
-        }
+
     }
 
     /**
@@ -119,6 +126,7 @@ public abstract class Game extends JPanel {
 
         // 定时任务：绘制、对象产生、碰撞判定、击毁及结束判定
         if (musicOn){
+            bgmThread = getBgmThread();
             bgmThread.start();
         }
         Runnable task = () -> {
@@ -141,11 +149,19 @@ public abstract class Game extends JPanel {
                     }
                 }
                 //分数达到设定阈值的倍数，出现boss敌机
-                if (score > nextScoreOfBoss && score / cycleScoreOfBoss > numOfBoss) {
+                if (score > nextScoreOfBoss && score / cycleScoreOfBoss > numOfBoss && !bossExistFlag) {
+                    bossExistFlag = true;
                     abstractEnemyAircraftFactory = new BossEnemyFactory();
                     enemyAircrafts.add(abstractEnemyAircraftFactory.createEnemyAircraft());
                     numOfBoss++;
                     nextScoreOfBoss += cycleScoreOfBoss;
+
+//                    if(musicOn){
+//                        bossThread = getBossThread();
+//                        synchronized(musicObj){
+//                            bossThread.start();
+//                        }
+//                    }
                 }
 
                 // 飞机射出子弹
@@ -171,7 +187,9 @@ public abstract class Game extends JPanel {
             repaint();
 
             //检查音乐
-            checkMusic();
+            if (musicOn) {
+                //checkMusic();
+            }
 
             // 游戏结束检查
             if (heroAircraft.getHp() <= 0) {
@@ -202,7 +220,57 @@ public abstract class Game extends JPanel {
 
     }
 
+    /**播放短音频：子弹射击、道具获取、游戏结束*/
+    private void shortMisicThreadStart(MusicThread thread) {
+        // 停止当前播放的其他音频
+        getmusicThreadRunningList();
+        //System.out.println("get list");
+        System.out.print(musicThreadRunningList);
+        for (MusicThread t:musicThreadRunningList){
+            t.setInterrupt();
+        }
+        if (bgmThread.stopFlag==1){
+            System.out.println("bgmthread stopflag==1");
+            if(bgmThread.isAlive())     System.out.println("bgm thread isalive");
+        }
+        // 开启自己的线程
+        synchronized (musicObj) {
+            System.out.println("射击thread start");
+            thread.start();
+        }
+    }
+
+    /**判断线程是否存在且正在运行*/
+    private boolean existAndRunning(MusicThread t){
+        return t!=null && t.isAlive();
+    }
+
+    /**从所有音乐线程中找到正在运行的*/
+    private void getmusicThreadRunningList() {
+        musicThreadRunningList.clear();
+        if (existAndRunning(bgmThread)){
+            System.out.print("get bgm");
+            musicThreadRunningList.add(bgmThread);
+        }if(existAndRunning(bossThread)){
+            musicThreadRunningList.add(bossThread);
+        }if(existAndRunning(bulletHitThread)){
+            System.out.print(" get bullet");
+            musicThreadRunningList.add(bulletHitThread);
+        }
+    }
+
     private void checkMusic() {
+        if (bossExistFlag){
+
+        }
+        else{
+            if(!bgmThread.isAlive()){
+                System.out.println("main died");
+                bgmThread = getBgmThread();
+                bgmThread.start();
+                System.out.println("main restart");
+            }
+        }
 
     }
 
@@ -287,6 +355,9 @@ public abstract class Game extends JPanel {
                     // 敌机撞击到英雄机子弹
                     // 敌机损失一定生命值
                     enemyAircraft.decreaseHp(bullet.getPower());
+                    if(musicOn){
+                        setBulletHitThreadAndStart();
+                    }
                     bullet.vanish();
                     if (enemyAircraft.notValid()) {
                         // TODO 获得分数，产生道具补给
@@ -305,6 +376,7 @@ public abstract class Game extends JPanel {
                         else if (enemyAircraft instanceof BossEnemy) {
                             //消灭boss敌机，+50分
                             score += 50;
+                            bossExistFlag = false;
                             AbstractProp prop = enemyAircraft.generateProp();
                             if (prop != null){
                                 props.add(prop);
@@ -334,6 +406,24 @@ public abstract class Game extends JPanel {
                 prop.vanish();
             }
         }
+    }
+
+    /**创建子弹射击音频线程并启动*/
+    private void setBulletHitThreadAndStart() {
+//        if (bulletHitThread!=null && bulletHitThread.isAlive()){
+//            System.out.println("hit thread alive");
+//            bulletHitThread.stop();
+//        }
+        bulletHitThread = new MusicThread("src/videos/bullet_hit.wav",0);
+        System.out.println("new hit music");
+        shortMisicThreadStart(bulletHitThread);
+    }
+
+    private MusicThread getBgmThread() {
+        return new MusicThread("src/videos/bgm.wav",1);
+    }
+    private MusicThread getBossThread() {
+        return new MusicThread("src/videos/bgm_boss.wav",1);
     }
 
     /**清除超时的火力道具*/
