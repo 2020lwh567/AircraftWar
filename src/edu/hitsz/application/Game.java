@@ -9,6 +9,7 @@ import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
 import edu.hitsz.music.MusicThread;
 import edu.hitsz.properties.AbstractProp;
+import edu.hitsz.properties.PropBomb;
 import org.apache.commons.lang3.concurrent.BasicThreadFactory;
 
 import javax.swing.*;
@@ -71,7 +72,7 @@ public abstract class Game extends JPanel {
     private int numOfBoss = 0;
 
     /**boss机出现的分数周期*/
-    private int cycleScoreOfBoss = 150;
+    private int cycleScoreOfBoss = 300;
 
     /**下次出现boss机的分数*/
     private int nextScoreOfBoss = cycleScoreOfBoss;
@@ -85,11 +86,12 @@ public abstract class Game extends JPanel {
     private MusicThread bgmThread;
     private MusicThread bossThread;
     private MusicThread bulletHitThread;
+    private MusicThread getSupplyThread;
+    private MusicThread bombExplosionThread;
+    private MusicThread gameOverThread;
 
     /**当前运行的音乐线程*/
     private List<MusicThread> musicThreadRunningList;
-
-    public static final Object musicObj = new Object();
 
     private boolean bossExistFlag;
 
@@ -156,12 +158,10 @@ public abstract class Game extends JPanel {
                     numOfBoss++;
                     nextScoreOfBoss += cycleScoreOfBoss;
 
-//                    if(musicOn){
-//                        bossThread = getBossThread();
-//                        synchronized(musicObj){
-//                            bossThread.start();
-//                        }
-//                    }
+                    if(musicOn){
+                        bossThread = getBossThread();
+                        bossThread.start();
+                    }
                 }
 
                 // 飞机射出子弹
@@ -188,7 +188,7 @@ public abstract class Game extends JPanel {
 
             //检查音乐
             if (musicOn) {
-                //checkMusic();
+                checkMusic();
             }
 
             // 游戏结束检查
@@ -196,6 +196,9 @@ public abstract class Game extends JPanel {
                 // 游戏结束
                 executorService.shutdown();
                 gameOverFlag = true;
+                if(musicOn){
+                    startGameOverMusicThread();
+                }
 
 //                //写入csv文件
 //                PlayerDao playerDao = new PlayerDaoImpl(difficulty);
@@ -227,17 +230,22 @@ public abstract class Game extends JPanel {
         //System.out.println("get list");
         System.out.print(musicThreadRunningList);
         for (MusicThread t:musicThreadRunningList){
-            t.setInterrupt();
+            // 暂停背景音乐和boss音乐， 关闭其他音乐
+            if(t.getFilename().contains("bgm")){
+                t.setPause();
+            }else{
+                t.setInterrupt();
+            }
         }
-        if (bgmThread.stopFlag==1){
+        if (bgmThread.stopFlag){
             System.out.println("bgmthread stopflag==1");
             if(bgmThread.isAlive())     System.out.println("bgm thread isalive");
         }
         // 开启自己的线程
-        synchronized (musicObj) {
+
             System.out.println("射击thread start");
             thread.start();
-        }
+
     }
 
     /**判断线程是否存在且正在运行*/
@@ -249,22 +257,30 @@ public abstract class Game extends JPanel {
     private void getmusicThreadRunningList() {
         musicThreadRunningList.clear();
         if (existAndRunning(bgmThread)){
-            System.out.print("get bgm");
             musicThreadRunningList.add(bgmThread);
         }if(existAndRunning(bossThread)){
             musicThreadRunningList.add(bossThread);
         }if(existAndRunning(bulletHitThread)){
-            System.out.print(" get bullet");
             musicThreadRunningList.add(bulletHitThread);
+        }if(existAndRunning(bombExplosionThread)){
+            musicThreadRunningList.add(bombExplosionThread);
+        }if(existAndRunning(getSupplyThread)){
+            musicThreadRunningList.add(getSupplyThread);
         }
     }
 
     private void checkMusic() {
+        // 存在boss
         if (bossExistFlag){
 
         }
+        // boss不在
         else{
-            if(!bgmThread.isAlive()){
+            if(bossThread!=null && bossThread.isAlive()){
+                bossThread.setInterrupt();
+                System.out.println("boss music stop");
+            }
+            if(bgmThread!=null && !bgmThread.isAlive()){
                 System.out.println("main died");
                 bgmThread = getBgmThread();
                 bgmThread.start();
@@ -377,6 +393,9 @@ public abstract class Game extends JPanel {
                             //消灭boss敌机，+50分
                             score += 50;
                             bossExistFlag = false;
+                            if(musicOn){
+                                bossThread.setInterrupt();
+                            }
                             AbstractProp prop = enemyAircraft.generateProp();
                             if (prop != null){
                                 props.add(prop);
@@ -402,6 +421,15 @@ public abstract class Game extends JPanel {
                 //记录获得时间
                 prop.setStartTime(time);
                 usingProps.add(prop);
+                if(musicOn){
+                    if (prop instanceof PropBomb){
+                        // 炸弹音效
+                        setBombThreadAndStart();
+                    }else {
+                        //获得道具音效
+                        setGetSupplyThreadAndStart();
+                    }
+                }
                 prop.operate(heroAircraft, enemyAircrafts, enemyBullets);
                 prop.vanish();
             }
@@ -417,6 +445,28 @@ public abstract class Game extends JPanel {
         bulletHitThread = new MusicThread("src/videos/bullet_hit.wav",0);
         System.out.println("new hit music");
         shortMisicThreadStart(bulletHitThread);
+    }
+
+    private void setGetSupplyThreadAndStart(){
+        getSupplyThread = new MusicThread("src/videos/get_supply.wav",0);
+        System.out.println("new supply music");
+        shortMisicThreadStart(getSupplyThread);
+    }
+
+    private void setBombThreadAndStart(){
+        bombExplosionThread = new MusicThread("src/videos/bomb_explosion.wav",0);
+        System.out.println("new bomb music");
+        shortMisicThreadStart(bombExplosionThread);
+    }
+
+    private void startGameOverMusicThread() {
+        gameOverThread = new MusicThread("src/videos/game_over.wav",0);
+        getmusicThreadRunningList();
+        for (MusicThread t:musicThreadRunningList){
+            // 关闭所有音乐
+            t.setInterrupt();
+        }
+        gameOverThread.start();
     }
 
     private MusicThread getBgmThread() {
