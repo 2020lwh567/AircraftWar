@@ -27,7 +27,7 @@ public class BossEnemy extends AbstractEnemyAircraft {
         }
         // 判定 y 轴向下飞行出界
         if (locationY >= Main.WINDOW_HEIGHT ) {
-            vanish();
+            speedY = -speedY;
         }
     }
 

@@ -272,7 +272,10 @@ public abstract class Game extends JPanel {
     private void checkMusic() {
         // 存在boss
         if (bossExistFlag){
-
+            if (bossThread!=null && !bossThread.isAlive()){
+                bossThread = getBossThread();
+                bossThread.start();
+            }
         }
         // boss不在
         else{

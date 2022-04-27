@@ -13,8 +13,8 @@ public class BossEnemyFactory extends AbstractEnemyAircraftFactory{
                 (int) (Math.random() * (Main.WINDOW_WIDTH - ImageManager.BOSS_ENEMY_IMAGE.getWidth())),
                 (int) (Math.random() * (Main.WINDOW_HEIGHT - ImageManager.BOSS_ENEMY_IMAGE.getHeight()) * 0.5),
                 ((Math.random()>0.5)?1:-1)*2,
-                -1,
-                150,
+                0,
+                350,
                 3,
                 30,
                 new ScatterShootStrategy()
