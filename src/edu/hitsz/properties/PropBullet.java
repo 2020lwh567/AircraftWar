@@ -21,7 +21,7 @@ public class PropBullet extends AbstractProp{
     private int increasePower = 20;
 
     /**火力道具使用时长限制*/
-    private int linitTime = 20000;
+    private int limitTime = 20000;
 
     public PropBullet(int locationX, int locationY) {
         super(locationX, locationY);
@@ -29,14 +29,25 @@ public class PropBullet extends AbstractProp{
 
     @Override
     public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
-        heroaircraft.increaseFire(increaseShootNum, increasePower);
-        heroaircraft.setStrategy(new ScatterShootStrategy());
-        System.out.println("FireSupply active!");
+        Runnable r = () -> {
+            try{
+                heroaircraft.increaseFire(increaseShootNum, increasePower);
+                heroaircraft.setStrategy(new ScatterShootStrategy());
+                System.out.println("FireSupply active!---------");
+                Thread.sleep(limitTime);
+            } catch (InterruptedException e){
+                e.printStackTrace();
+            }finally {
+                System.out.println("inactive --------");
+                setInvalid(heroaircraft, enemyaircraft, enemybullet);
+            }
+        };
+        new Thread(r).start();
     }
 
     @Override
     public boolean timeLimitExceeded(int currentTime) {
-        if (currentTime - this.getStartTime() >= linitTime) {
+        if (currentTime - this.getStartTime() >= limitTime) {
             return true;
         }
         else {

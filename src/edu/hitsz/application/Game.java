@@ -480,16 +480,16 @@ public abstract class Game extends JPanel {
     }
 
     /**清除超时的火力道具*/
-    private void removeTimeExceededProps(){
-        Iterator<AbstractProp> iterator = usingProps.iterator();
-        while(iterator.hasNext()){
-            AbstractProp prop = iterator.next();
-            if (prop.timeLimitExceeded(time)){
-                prop.setInvalid(heroAircraft, enemyAircrafts, enemyBullets);
-                iterator.remove();
-            }
-        }
-    }
+//    private void removeTimeExceededProps(){
+//        Iterator<AbstractProp> iterator = usingProps.iterator();
+//        while(iterator.hasNext()){
+//            AbstractProp prop = iterator.next();
+//            if (prop.timeLimitExceeded(time)){
+//                prop.setInvalid(heroAircraft, enemyAircrafts, enemyBullets);
+//                iterator.remove();
+//            }
+//        }
+//    }
 
     /**获取当前时间*/
     public String getCurrentTime(){
@@ -501,7 +501,7 @@ public abstract class Game extends JPanel {
      * 后处理：
      * 1. 删除无效的子弹
      * 2. 删除无效的敌机
-     * 3. 删除无效的道具
+     * //3. 删除无效的道具
      * 4. 删除超过时效的道具
      * 5. 检查英雄机生存
      * <p>
@@ -512,7 +512,7 @@ public abstract class Game extends JPanel {
         enemyBullets.removeIf(AbstractFlyingObject::notValid);
         heroBullets.removeIf(AbstractFlyingObject::notValid);
         props.removeIf(AbstractFlyingObject::notValid);
-        removeTimeExceededProps();
+       // removeTimeExceededProps();
         enemyAircrafts.removeIf(AbstractFlyingObject::notValid);
     }
 
