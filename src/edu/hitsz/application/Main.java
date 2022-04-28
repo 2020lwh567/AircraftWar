@@ -53,7 +53,7 @@ public class Main {
                 obj.wait();
                 mainFrame.remove(game);
 
-                System.out.println("back main");
+                //System.out.println("back main");
 
                 //进入得分界面
                 EndMenu endMenu = new EndMenu(game.getDifficulty());

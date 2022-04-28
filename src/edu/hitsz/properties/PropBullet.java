@@ -33,12 +33,12 @@ public class PropBullet extends AbstractProp{
             try{
                 heroaircraft.increaseFire(increaseShootNum, increasePower);
                 heroaircraft.setStrategy(new ScatterShootStrategy());
-                System.out.println("FireSupply active!---------");
+                System.out.println("FireSupply active!");
                 Thread.sleep(limitTime);
             } catch (InterruptedException e){
                 e.printStackTrace();
             }finally {
-                System.out.println("inactive --------");
+                //System.out.println("inactive --------");
                 setInvalid(heroaircraft, enemyaircraft, enemybullet);
             }
         };

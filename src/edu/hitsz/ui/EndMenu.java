@@ -62,7 +62,7 @@ public class EndMenu extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int index = table.getSelectedRow();
-                System.out.println(index);
+                //System.out.println(index);
                 if(index!=-1){
                     if (JOptionPane.showConfirmDialog(null, "是否确定删除选定玩家？", "提示", JOptionPane.OK_CANCEL_OPTION) == JOptionPane.YES_OPTION){
                         // 从数据库中删除
