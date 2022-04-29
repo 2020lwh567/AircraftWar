@@ -1,9 +1,10 @@
 package edu.hitsz.aircraft;
 
+import edu.hitsz.observerPattern.Subscriber;
 import edu.hitsz.properties.AbstractProp;
 import edu.hitsz.shootStragety.ShootStrategyInterface;
 
-public class EliteEnemy extends AbstractEnemyAircraft {
+public class EliteEnemy extends AbstractEnemyAircraft implements Subscriber {
 
     public EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy) {
         super(locationX, locationY, speedX, speedY, hp, shootNum, power, shootStrategy);
@@ -25,4 +26,9 @@ public class EliteEnemy extends AbstractEnemyAircraft {
         this.shootNum = num;
     }
 
+    /**炸弹道具生效后精英机直接消失*/
+    @Override
+    public void update() {
+        this.vanish();
+    }
 }

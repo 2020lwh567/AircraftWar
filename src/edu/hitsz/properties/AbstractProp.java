@@ -18,7 +18,7 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     private int startTime = 0;
 
     /**道具使用时长限制*/
-    private int linitTime = (int)2e9;
+    private int limitTime = (int)2e9;
 
     public AbstractProp(int locationX, int locationY) {
         super(locationX, locationY, 0, 2);
@@ -33,11 +33,8 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     }
 
     /**道具生效函数
-     * @param heroaircraft  英雄机实例
-     * @param enemyaircraft 所有敌机的list
-     * @param enemybullet  所有敌机子弹的list
      * */
-    public abstract void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet);
+    public abstract void operate();
 
     /**是否超过使用限时
      * @param currentTime 当前时间
@@ -46,11 +43,8 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     public abstract boolean timeLimitExceeded(int currentTime);
 
     /**道具失效函数
-     * @param heroaircraft  英雄机实例
-     * @param enemyaircraft 所有敌机的list
-     * @param enemybullet 所有敌机子弹的list
      * */
-    public abstract void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet);
+    public abstract void setInvalid();
 
     @Override
     public void forward(){

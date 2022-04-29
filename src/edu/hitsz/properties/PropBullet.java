@@ -28,18 +28,19 @@ public class PropBullet extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void operate() {
+        HeroAircraft heroaircraft = HeroAircraft.getHeroAircraft();
         Runnable r = () -> {
             try{
                 heroaircraft.increaseFire(increaseShootNum, increasePower);
                 heroaircraft.setStrategy(new ScatterShootStrategy());
                 System.out.println("FireSupply active!");
                 Thread.sleep(limitTime);
+
             } catch (InterruptedException e){
                 e.printStackTrace();
             }finally {
-                //System.out.println("inactive --------");
-                setInvalid(heroaircraft, enemyaircraft, enemybullet);
+                setInvalid();
             }
         };
         new Thread(r).start();
@@ -56,8 +57,9 @@ public class PropBullet extends AbstractProp{
     }
 
     @Override
-    /**道具超时失效*/
-    public void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    /** 道具超时失效 */
+    public void setInvalid() {
+        HeroAircraft heroaircraft = HeroAircraft.getHeroAircraft();
         heroaircraft.increaseFire(-increaseShootNum, -increasePower);
         System.out.println("FireSupply exceeds time limit!");
 

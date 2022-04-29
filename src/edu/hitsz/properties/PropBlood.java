@@ -21,8 +21,8 @@ public class PropBlood extends AbstractProp{
     }
 
     @Override
-    public void operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
-        heroaircraft.increaseHp(returnBlood);
+    public void operate() {
+        HeroAircraft.getHeroAircraft().increaseHp(returnBlood);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class PropBlood extends AbstractProp{
     }
 
     @Override
-    public void setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet) {
+    public void setInvalid() {
         //加血道具始终有效
     }
 

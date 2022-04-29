@@ -47,7 +47,7 @@ class PropBulletTest {
         HeroAircraft heroAircraft = HeroAircraft.getHeroAircraft();
         int shootNumOri = heroAircraft.getShootNum();
         int powerOri = heroAircraft.getBulletPower();
-        propBullet.operate(heroAircraft, null, null);
+        propBullet.operate();
         assertEquals(heroAircraft.getShootNum(), shootNumOri+1);
         assertEquals(heroAircraft.getBulletPower(), powerOri+20);
     }
@@ -65,8 +65,8 @@ class PropBulletTest {
         int shootNumOri = heroAircraft.getShootNum();
         int powerOri = heroAircraft.getBulletPower();
         //先生效后调用失效函数,检测英雄机是否恢复原状
-        propBullet.operate(heroAircraft, null, null);
-        propBullet.setInvalid(heroAircraft, null, null);
+        propBullet.operate();
+        propBullet.setInvalid();
         assertEquals(heroAircraft.getShootNum(), shootNumOri);
         assertEquals(heroAircraft.getBulletPower(), powerOri);
     }

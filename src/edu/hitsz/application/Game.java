@@ -7,6 +7,7 @@ import edu.hitsz.aircraftFactory.AbstractEnemyAircraftFactory;
 import edu.hitsz.aircraftFactory.BossEnemyFactory;
 import edu.hitsz.aircraftFactory.EliteEnemyFactory;
 import edu.hitsz.aircraftFactory.MobEnemyFactory;
+import edu.hitsz.bullet.EnemyBullet;
 import edu.hitsz.music.MusicThread;
 import edu.hitsz.properties.AbstractProp;
 import edu.hitsz.properties.PropBomb;
@@ -50,9 +51,6 @@ public abstract class Game extends JPanel {
     /**页面上的所有道具*/
     private final List<AbstractProp> props;
 
-    /**当前在使用的、有限时的道具*/
-    private final List<AbstractProp> usingProps;
-
     /**抽象的敌机产生工厂*/
     private AbstractEnemyAircraftFactory abstractEnemyAircraftFactory;
 
@@ -93,7 +91,7 @@ public abstract class Game extends JPanel {
     /**当前运行的音乐线程*/
     private List<MusicThread> musicThreadRunningList;
 
-    /** 判断boss是否活着 */
+    /**判断boss是否活着*/
     private boolean bossExistFlag;
 
     public Game(boolean musicOn) {
@@ -103,7 +101,6 @@ public abstract class Game extends JPanel {
         heroBullets = new LinkedList<>();
         enemyBullets = new LinkedList<>();
         props = new LinkedList<>();
-        usingProps = new LinkedList<>();
 
         musicThreadRunningList = new LinkedList<>();
 
@@ -228,8 +225,6 @@ public abstract class Game extends JPanel {
     private void shortMisicThreadStart(MusicThread thread) {
         // 停止当前播放的其他音频
         getmusicThreadRunningList();
-        //System.out.println("get list");
-        //System.out.print(musicThreadRunningList);
         for (MusicThread t:musicThreadRunningList){
             // 暂停背景音乐和boss音乐， 关闭其他音乐
             if(t.getFilename().contains("bgm")){
@@ -242,9 +237,8 @@ public abstract class Game extends JPanel {
 //            System.out.println("bgmthread stopflag==1");
 //            if(bgmThread.isAlive())     System.out.println("bgm thread isalive");
 //        }
-        // 开启自己的线程
 
-        //System.out.println("shootThread start");
+        // 开启自己的线程
         thread.start();
     }
 
@@ -283,7 +277,6 @@ public abstract class Game extends JPanel {
             // 关闭boss音乐
             if(bossThread!=null && bossThread.isAlive()){
                 bossThread.setInterrupt();
-               // System.out.println("boss music stop");
             }
             // 打开背景音乐
             if(bgmThread!=null && !bgmThread.isAlive()){
@@ -384,11 +377,11 @@ public abstract class Game extends JPanel {
                         // TODO 获得分数，产生道具补给
                         if (enemyAircraft instanceof MobEnemy){
                             //消灭普通敌机，+10分
-                            score += 10;
+                            destroyMobEnemyAndAddScore();
                         }
                         else if (enemyAircraft instanceof EliteEnemy){
                             //消灭英雄敌机，+20分
-                            score += 20;
+                            destroyEliteEnemyAndAddScore();
                             AbstractProp prop = enemyAircraft.generateProp();
                             if (prop != null){
                                 props.add(prop);
@@ -396,7 +389,7 @@ public abstract class Game extends JPanel {
                         }
                         else if (enemyAircraft instanceof BossEnemy) {
                             //消灭boss敌机，+50分
-                            score += 50;
+                            destroyBossEnemyAndAddScore();
                             bossExistFlag = false;
                             if(musicOn){
                                 // 开启boss音乐
@@ -422,11 +415,11 @@ public abstract class Game extends JPanel {
             if (prop.notValid()) {
                 continue;
             }
-            // 道具生效
+            // 我方获取道具
             if (heroAircraft.crash(prop)){
-                //记录获得时间
+                // 记录获得时间
                 prop.setStartTime(time);
-                usingProps.add(prop);
+                // 开启音乐
                 if(musicOn){
                     if (prop instanceof PropBomb){
                         // 炸弹音效
@@ -436,18 +429,52 @@ public abstract class Game extends JPanel {
                         setGetSupplyThreadAndStart();
                     }
                 }
-                prop.operate(heroAircraft, enemyAircrafts, enemyBullets);
+                // 道具生效
+                if (prop instanceof PropBomb){
+                    // 炸弹道具
+                    // 注册所有观察者  并  获得分数
+                    for (AbstractEnemyAircraft aircraft : enemyAircrafts){
+                        if (aircraft instanceof EliteEnemy){
+                            ((PropBomb) prop).addSubscriber((EliteEnemy) aircraft);
+                            destroyEliteEnemyAndAddScore();
+                        }else if(aircraft instanceof MobEnemy){
+                            ((PropBomb) prop).addSubscriber((MobEnemy) aircraft);
+                            destroyMobEnemyAndAddScore();
+                        }
+                    }
+                    for (BaseBullet bullet:enemyBullets){
+                        ((PropBomb) prop).addSubscriber((EnemyBullet) bullet);
+                    }
+
+                    // 道具生效，给观察者发送消息
+                    prop.operate();
+                }else {
+                    // 火力道具和加血道具
+                    prop.operate();
+                }
+                // 道具消失
                 prop.vanish();
             }
         }
     }
 
+    /**消灭普通敌机，加10分*/
+    private void destroyMobEnemyAndAddScore() {
+        score += 10;
+    }
+
+    /**消灭精英敌机，加20分*/
+    private void destroyEliteEnemyAndAddScore() {
+        score += 20;
+    }
+
+    /**消灭boss敌机，加50分*/
+    private void destroyBossEnemyAndAddScore() {
+        score += 50;
+    }
+
     /**创建子弹射击音频线程并启动*/
     private void setBulletHitThreadAndStart() {
-//        if (bulletHitThread!=null && bulletHitThread.isAlive()){
-//            System.out.println("hit thread alive");
-//            bulletHitThread.stop();
-//        }
         bulletHitThread = new MusicThread("src/videos/bullet_hit.wav",0);
        // System.out.println("new hit music");
         shortMisicThreadStart(bulletHitThread);
@@ -478,27 +505,15 @@ public abstract class Game extends JPanel {
         gameOverThread.start();
     }
 
-    /** 获取bgm实例 */
+    /**获取bgm实例*/
     private MusicThread getBgmThread() {
         return new MusicThread("src/videos/bgm.wav",1);
     }
 
-    /** 获取boss bgm实例 */
+    /**获取boss bgm实例*/
     private MusicThread getBossThread() {
         return new MusicThread("src/videos/bgm_boss.wav",1);
     }
-
-    /**清除超时的火力道具*/
-//    private void removeTimeExceededProps(){
-//        Iterator<AbstractProp> iterator = usingProps.iterator();
-//        while(iterator.hasNext()){
-//            AbstractProp prop = iterator.next();
-//            if (prop.timeLimitExceeded(time)){
-//                prop.setInvalid(heroAircraft, enemyAircrafts, enemyBullets);
-//                iterator.remove();
-//            }
-//        }
-//    }
 
     /**获取当前时间*/
     public String getCurrentTime(){
