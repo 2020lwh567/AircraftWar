@@ -30,9 +30,4 @@ public class PropBlood extends AbstractProp{
         return false;
     }
 
-    @Override
-    public void setInvalid() {
-        //加血道具始终有效
-    }
-
 }

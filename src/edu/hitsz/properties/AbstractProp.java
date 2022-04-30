@@ -17,9 +17,6 @@ public abstract class AbstractProp extends AbstractFlyingObject {
     /**获得道具时间*/
     private int startTime = 0;
 
-    /**道具使用时长限制*/
-    private int limitTime = (int)2e9;
-
     public AbstractProp(int locationX, int locationY) {
         super(locationX, locationY, 0, 2);
     }
@@ -42,9 +39,9 @@ public abstract class AbstractProp extends AbstractFlyingObject {
      * */
     public abstract boolean timeLimitExceeded(int currentTime);
 
-    /**道具失效函数
-     * */
-    public abstract void setInvalid();
+//    /**道具失效函数
+//     * */
+//    public abstract void setInvalid();
 
     @Override
     public void forward(){

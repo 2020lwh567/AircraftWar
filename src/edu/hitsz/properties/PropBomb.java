@@ -38,11 +38,6 @@ public class PropBomb extends AbstractProp{
         return false;
     }
 
-    @Override
-    public void setInvalid() {
-        //炸弹道具只在一瞬间有效
-    }
-
     /** 添加观察者 */
     public void addSubscriber(Subscriber obj){
         subscriber.add(obj);

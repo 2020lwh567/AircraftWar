@@ -36,11 +36,9 @@ public class PropBullet extends AbstractProp{
                 heroaircraft.setStrategy(new ScatterShootStrategy());
                 System.out.println("FireSupply active!");
                 Thread.sleep(limitTime);
-
+                setInvalid();
             } catch (InterruptedException e){
                 e.printStackTrace();
-            }finally {
-                setInvalid();
             }
         };
         new Thread(r).start();
@@ -56,7 +54,6 @@ public class PropBullet extends AbstractProp{
         }
     }
 
-    @Override
     /** 道具超时失效 */
     public void setInvalid() {
         HeroAircraft heroaircraft = HeroAircraft.getHeroAircraft();
