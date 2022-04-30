@@ -43,20 +43,20 @@ public abstract class AbstractEnemyAircraft extends AbstractAircraft{
     public AbstractProp generateProp(){
         AbstractProp prop = null;
 
-        //以下三种道具获得概率相同
-        double prob1 = 1.0/3;
-        double prob2 = prob1*2;
+        // 炸弹道具获得概率0.2， 其他道具获得概率均为0.4
+        double prob1 = 0.2;
+        double prob2 = 0.6;
         double num = Math.random();
 
-        //获得加血道具
+        //获得炸弹道具
         if (num<prob1){
-            abstractPropFactory = new PropBloodFactory();
+            abstractPropFactory = new PropBombFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }
 
-        //获得炸弹道具
+        //获得加血道具
         else if(num>prob2){
-            abstractPropFactory = new PropBombFactory();
+            abstractPropFactory = new PropBloodFactory();
             prop = abstractPropFactory.createProp(this.getLocationX(), this.getLocationY());
         }
 

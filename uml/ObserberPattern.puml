@@ -1,0 +1,42 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class Game {
+}
+
+interface Subscriber {
+    + update():void
+}
+
+Subscriber <|.. EliteEnemy
+Subscriber <|.. EnemyBullet
+Subscriber <|.. MobEnemy
+Subscriber <-up-o PropBomb
+PropBomb <.up. Game
+
+class EliteEnemy {
+    + generateProp():AbstractProp
+    + update():void
+}
+
+class MobEnemy {
+    + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + update():void
+}
+
+class EnemyBullet {
+    + EnemyBullet(int locationX, int locationY, int speedX, int speedY, int power)
+    + update():void
+}
+
+class PropBomb {
+    + subscriber: List<Subscriber>
+    + PropBomb(int locationX, int locationY)
+    + operate(): void
+    + timeLimitExceeded(int currentTime):boolean
+    + addSubscriber(Subscriber obj): void
+    + removeSubscriber(Subscriber obj): void
+    + notifyAllSubscribers(): void
+}
+
+@enduml
