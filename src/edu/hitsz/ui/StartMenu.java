@@ -27,11 +27,12 @@ public class StartMenu extends JPanel {
         this.add(button);
     }
 
-    //给三个按钮添加监听时间
+    //给三个按钮添加监听事件
     private void addListener(JButton button, int difficulty){
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setVisible(false);
                 synchronized(obj){
                     CreateGamePanel.setDifficulty(difficulty);
                     CreateGamePanel.setMusicOn(comboBox.getSelectedIndex());

@@ -32,38 +32,47 @@ public class Main {
                 WINDOW_WIDTH, WINDOW_HEIGHT);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        // 进入菜单界面
+        StartMenu menuPanel = new StartMenu();
+        mainFrame.add(menuPanel);
+        mainFrame.setVisible(true);
+
         synchronized (obj){
-            try {
-//                synchronized (obj){
-//                    System.out.println("before menu");
-//                    obj.notifyAll();
-//                }
-                // 进入菜单界面
-                StartMenu menuPanel = new StartMenu();
-                mainFrame.add(menuPanel);
-                mainFrame.setVisible(true);
-                obj.wait();
-                mainFrame.remove(menuPanel);
-
-                //进入游戏界面
-                Game game = CreateGamePanel.createGamePanel();
-                mainFrame.add(game);
-                mainFrame.setVisible(true);
-                game.action();
-                obj.wait();
-                mainFrame.remove(game);
-
-                //System.out.println("back main");
-
-                //进入得分界面
-                EndMenu endMenu = new EndMenu(game.getDifficulty());
-                endMenu.addJPanel(endMenu);
-                mainFrame.setVisible(true);
-                endMenu.showPopUps(game.getScore(), game.getCurrentTime(), game.getDifficulty());
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            while(menuPanel.isVisible()) {
+                try {
+                    obj.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
+        // 移除菜单页面
+        mainFrame.remove(menuPanel);
+
+        //进入游戏界面
+        Game game = CreateGamePanel.createGamePanel();
+        mainFrame.add(game);
+        mainFrame.setVisible(true);
+        game.action();
+
+        synchronized (obj){
+            while(game.isVisible()) {
+                try {
+                    obj.wait();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        //移除游戏页面
+        mainFrame.remove(game);
+
+        //进入得分界面
+        EndMenu endMenu = new EndMenu(game.getDifficulty());
+        endMenu.addJPanel(endMenu);
+        mainFrame.setVisible(true);
+        // 传入当前玩家得分、游戏时间、难度
+        endMenu.showPopUps(game.getScore(), game.getCurrentTime(), game.getDifficulty());
+
     }
 }

@@ -13,9 +13,9 @@ public class CreateGamePanel {
         difficulty = x;
     }
 
+    // 当x==0表示启动音乐， x==1表示关闭音乐
     public static void setMusicOn(int x){
         musicOn = (x==0);
-
     }
 
     public static Game createGamePanel(){

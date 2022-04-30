@@ -206,6 +206,7 @@ public abstract class Game extends JPanel {
 //                playerDao.showLeaderboard();
 
                 System.out.println("Game Over!");
+                setVisible(false);
                 synchronized(obj) {
                     obj.notifyAll();
                 }
