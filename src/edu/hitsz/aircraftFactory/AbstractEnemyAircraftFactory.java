@@ -8,6 +8,6 @@ public abstract class AbstractEnemyAircraftFactory {
     /**产生敌机方法
      * @return 返回产生的敌机
      * */
-    public abstract AbstractEnemyAircraft createEnemyAircraft();
+    public abstract AbstractEnemyAircraft createEnemyAircraft(int hp, int speedY);
 
 }
