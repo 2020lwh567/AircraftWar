@@ -6,6 +6,8 @@ import edu.hitsz.aircraftFactory.MobEnemyFactory;
 
 import java.awt.*;
 
+import static java.lang.Math.min;
+
 public class HardGame extends Game{
     public HardGame(boolean musicOn) {
         super(musicOn);
@@ -16,7 +18,7 @@ public class HardGame extends Game{
         propOfGeneratingEliteAircraft = 0.2;
 
         // 难度提升周期
-        increaseDifficultyCycle.setCycleDuration(1800);
+        increaseDifficultyCycle.setCycleDuration(10000);
     }
 
     /**提升游戏难度*/
@@ -26,10 +28,10 @@ public class HardGame extends Game{
         enemyMaxNumber++;
 
         //增加boss血量
-        bossHp += 5;
+        bossHp += 100;
 
         //增加精英机血量
-        eliteHp += 5;
+        eliteHp += 50;
 
         //增大敌机速度
         if (Math.random()>propOfIncreasingEnemySpeedy){
@@ -43,7 +45,13 @@ public class HardGame extends Game{
         //减小敌机发射周期
         enemyShootCycle.decreaseCycleDuration(5);
 
-        System.out.printf("提升难度!最大敌机数%d,普通敌机速度%d,精英敌机速度%d,精英敌机血量%d,敌机发射周期%d\n",enemyMaxNumber, speedyOfMob, speedyOfElite, eliteHp, enemyShootCycle.CycleDuration);
+        //减小敌机产生周期
+        generateEnemyCycle.decreaseCycleDuration(5);
+
+        //提升精英机产生概率,最大为0.9
+        propOfGeneratingEliteAircraft = min(propOfGeneratingEliteAircraft+0.04, 0.9);
+
+        System.out.printf("提升难度：最大敌机数%d,普通敌机速度%d,精英敌机速度%d,精英敌机血量%d,敌机发射周期%d,敌机产生周期%d,精英机产生概率%f\n",enemyMaxNumber, speedyOfMob, speedyOfElite, eliteHp, enemyShootCycle.CycleDuration, generateEnemyCycle.CycleDuration, propOfGeneratingEliteAircraft);
     }
 
     @Override

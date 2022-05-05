@@ -5,6 +5,7 @@ import edu.hitsz.aircraft.HeroAircraft;
 import edu.hitsz.bullet.BaseBullet;
 import edu.hitsz.shootStragety.DirectShootStrategy;
 import edu.hitsz.shootStragety.ScatterShootStrategy;
+import edu.hitsz.shootStragety.SweepShootStrategy;
 
 import java.util.List;
 
@@ -21,7 +22,10 @@ public class PropBullet extends AbstractProp{
     private int increasePower = 20;
 
     /**火力道具使用时长限制*/
-    private int limitTime = 20000;
+    private int limitTime = 18000;
+
+    /**获得3个火力道具时，从散射变成扫射*/
+    private int scatter2sweep = 3;
 
     public PropBullet(int locationX, int locationY) {
         super(locationX, locationY);
@@ -33,7 +37,14 @@ public class PropBullet extends AbstractProp{
         Runnable r = () -> {
             try{
                 heroaircraft.increaseFire(increaseShootNum, increasePower);
-                heroaircraft.setStrategy(new ScatterShootStrategy());
+                heroaircraft.increaseNumOfBullet();
+                if(heroaircraft.getNumOfBullet()<scatter2sweep){
+                    // 散射
+                    heroaircraft.setStrategy(new ScatterShootStrategy());
+                }else{
+                    // 扫射
+                    heroaircraft.setStrategy(new SweepShootStrategy());
+                }
                 System.out.println("FireSupply active!");
                 Thread.sleep(limitTime);
                 setInvalid();
@@ -58,10 +69,13 @@ public class PropBullet extends AbstractProp{
     public void setInvalid() {
         HeroAircraft heroaircraft = HeroAircraft.getHeroAircraft();
         heroaircraft.increaseFire(-increaseShootNum, -increasePower);
+        heroaircraft.decreaseNumOfBullet();
         System.out.println("FireSupply exceeds time limit!");
 
         if (heroaircraft.getShootNum()==1){
             heroaircraft.setStrategy(new DirectShootStrategy());
+        }else if(heroaircraft.getNumOfBullet()<scatter2sweep){
+            heroaircraft.setStrategy(new ScatterShootStrategy());
         }
     }
 }

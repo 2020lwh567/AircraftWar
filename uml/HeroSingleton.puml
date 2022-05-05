@@ -5,15 +5,18 @@ class HeroAircraft {
     - shootNum:int
     - power:int
     - direction:int
+    - numOfBullet:int
     - {static} heroAircraft:HeroAircraft
-    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + {static} getHeroAircraft():HeroAircraft
+    + increaseNumOfBullet():void
+    + decreaseNumOfBullet():void
     + forward():void
     + shoot():List<BaseBullet>
     + increaseHp(int increase):void
     + increaseFire(int increaseShootNum, int increasePower):void
 }
 
-HeroAircraft <|-- HeroAircraft
+HeroAircraft <|-- HeroAircraft::heroAircraft
 
 @enduml

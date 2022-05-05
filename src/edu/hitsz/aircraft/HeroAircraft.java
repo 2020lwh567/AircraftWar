@@ -11,7 +11,18 @@ import edu.hitsz.shootStragety.ShootStrategyInterface;
  */
 public class HeroAircraft extends AbstractAircraft {
 
-    /**攻击方式 */
+    /**获得的火力道具个数*/
+    private int numOfBullet = 0;
+
+    public void increaseNumOfBullet(){
+        numOfBullet++;
+    }
+    public void decreaseNumOfBullet(){
+        numOfBullet--;
+    }
+    public int getNumOfBullet(){
+        return numOfBullet;
+    }
 
     public void setHp(int hp){
         this.hp = hp;

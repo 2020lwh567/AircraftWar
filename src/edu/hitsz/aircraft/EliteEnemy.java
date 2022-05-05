@@ -13,7 +13,7 @@ public class EliteEnemy extends AbstractEnemyAircraft implements Subscriber {
     @Override
     public AbstractProp generateProp(){
         AbstractProp prop = null;
-        double prob = 1.0/2;
+        double prob = 1.0/3;
 
         //有一半的概率获得道具
         if (Math.random()>prob){

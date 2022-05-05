@@ -76,8 +76,8 @@ public abstract class Game extends JPanel {
         }
         public void decreaseCycleDuration(int t){
             CycleDuration -= t;
-            if (CycleDuration < 40){
-                CycleDuration = 40;
+            if (CycleDuration < 300){
+                CycleDuration = 300;
             }
         }
     }
@@ -91,7 +91,7 @@ public abstract class Game extends JPanel {
      * 周期（ms)
      * 指示英雄机子弹发射频率
      */
-    protected Cycle heroShootCycle = new Cycle(600, 0);
+    protected Cycle heroShootCycle = new Cycle(500, 0);
 
     /**
      * 周期（ms)
@@ -103,7 +103,7 @@ public abstract class Game extends JPanel {
      * 周期（ms)
      * 指示难度提升频率
      */
-    protected Cycle increaseDifficultyCycle = new Cycle(3000, 0);
+    protected Cycle increaseDifficultyCycle = new Cycle(1800, 0);
 
     /**boss机出现过的总次数*/
     protected int numOfBoss = 0;
@@ -216,7 +216,7 @@ public abstract class Game extends JPanel {
                 }
             }
 
-                // 子弹移动
+            // 子弹移动
             bulletsMoveAction();
 
             //道具移动
