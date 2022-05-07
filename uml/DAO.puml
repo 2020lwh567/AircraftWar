@@ -4,20 +4,22 @@
 interface PlayerDao{
     + getAllPlayers():List<Player>
     + add(Player player):void
-    + delete(Player player):void
+    + delete(int playerIndex):void
+    + sort():void
     + showLeaderboard():void
 }
 
 PlayerDao <|.. PlayerDaoImpl
-PlayerDao <.left. game
+PlayerDao <.left. EndMenu
 Player <-right- PlayerDaoImpl
 
 class PlayerDaoImpl {
     - players: List<Player>
-    + PlayerDaoImpl()
+    + PlayerDaoImpl(int difficulty)
     + getAllPlayers():List<Player>
     + add(Player player):void
-    + delete(Player player):void
+    + sort():void
+    + delete(int playerIndex):void
     + showLeaderboard():void
     + {static} readCsv(String path):LinkedList<Player>
     + {static} writeCsv(List<Player> playerList, String filePath):void
@@ -34,8 +36,12 @@ class Player {
     + compareTo(Player player):int
 }
 
-class game {
-    + action():void
+class EndMenu {
+    - playerDaoImpl:PlayerDao
+    + EndMenu(int difficult)
+    + showEndPanel(int difficult):void
+    + showPopUps(int score, String time, int difficult):void
+    - getPlayerData():String[][]
 }
 
 @enduml

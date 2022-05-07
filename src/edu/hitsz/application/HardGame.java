@@ -30,7 +30,8 @@ public class HardGame extends Game{
         //增加boss血量
         bossHp += 100;
 
-        //增加精英机血量
+        //增加普通敌机和精英敌机血量
+        mobHp += 20;
         eliteHp += 50;
 
         //增大敌机速度
@@ -49,7 +50,7 @@ public class HardGame extends Game{
         generateEnemyCycle.decreaseCycleDuration(5);
 
         //提升精英机产生概率,最大为0.9
-        propOfGeneratingEliteAircraft = min(propOfGeneratingEliteAircraft+0.04, 0.9);
+        propOfGeneratingEliteAircraft = min(propOfGeneratingEliteAircraft+0.06, 0.9);
 
         System.out.printf("提升难度：最大敌机数%d,普通敌机速度%d,精英敌机速度%d,精英敌机血量%d,敌机发射周期%d,敌机产生周期%d,精英机产生概率%f\n",enemyMaxNumber, speedyOfMob, speedyOfElite, eliteHp, enemyShootCycle.CycleDuration, generateEnemyCycle.CycleDuration, propOfGeneratingEliteAircraft);
     }

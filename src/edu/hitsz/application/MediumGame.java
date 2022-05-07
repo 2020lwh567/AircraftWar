@@ -23,9 +23,9 @@ public class MediumGame extends Game{
         //增加同时出现的敌机数
         enemyMaxNumber++;
 
-        //增加普通敌机和boss敌机血量
+        //增加普通敌机和精英敌机血量
         mobHp += 10;
-        bossHp += 50;
+        eliteHp += 30;
 
         //增大敌机速度
         if (Math.random()>propOfIncreasingEnemySpeedy){
@@ -40,7 +40,7 @@ public class MediumGame extends Game{
         enemyShootCycle.decreaseCycleDuration(5);
 
         //提升精英机产生概率,最大为0.9
-        propOfGeneratingEliteAircraft = min(propOfGeneratingEliteAircraft+0.06, 0.9);
+        propOfGeneratingEliteAircraft = min(propOfGeneratingEliteAircraft+0.04, 0.9);
 
         System.out.printf("提升难度：最大敌机数%d,普通敌机速度%d,精英敌机速度%d,普通敌机血量%d,敌机发射周期%d,敌机产生周期%d,精英机产生概率%f\n",enemyMaxNumber, speedyOfMob, speedyOfElite, mobHp, enemyShootCycle.CycleDuration, generateEnemyCycle.CycleDuration,propOfGeneratingEliteAircraft);
     }

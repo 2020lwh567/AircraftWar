@@ -65,8 +65,8 @@ public abstract class Game extends JPanel {
     protected int time = 0;
 
     class Cycle{
-        int CycleDuration;
-        int CycleTime;
+        public int CycleDuration;
+        public int CycleTime;
         public Cycle(int cycleDuration, int cycleTime) {
             CycleDuration = cycleDuration;
             CycleTime = cycleTime;
@@ -102,8 +102,9 @@ public abstract class Game extends JPanel {
     /**
      * 周期（ms)
      * 指示难度提升频率
+     * 这里的10000会在子类构造函数中重写
      */
-    protected Cycle increaseDifficultyCycle = new Cycle(1800, 0);
+    protected Cycle increaseDifficultyCycle = new Cycle(10000, 0);
 
     /**boss机出现过的总次数*/
     protected int numOfBoss = 0;
@@ -331,6 +332,7 @@ public abstract class Game extends JPanel {
     //      Action 各部分
     //***********************
 
+    // 增加当前时间，判断是否跨越周期
     protected final boolean timeCountAndNewCycleJudge(Cycle cycle) {
         cycle.CycleTime += timeInterval;
         if (cycle.CycleTime >= cycle.CycleDuration && cycle.CycleTime - timeInterval < cycle.CycleDuration) {
@@ -636,7 +638,7 @@ public abstract class Game extends JPanel {
      * @param  g
      */
     @Override
-    public void paint(Graphics g) {
+    public final void paint(Graphics g) {
         super.paint(g);
 
         // 调用子类函数，绘制背景图片

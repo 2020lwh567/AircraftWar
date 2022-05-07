@@ -7,5 +7,5 @@ public interface PlayerDao {
     void add(Player player);
     void delete(int playerIndex);
     void sort();
-    void showLeaderboard();
+    //void showLeaderboard();
 }

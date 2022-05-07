@@ -30,7 +30,7 @@ class EnemyBullet {
 }
 
 class PropBomb {
-    + subscriber: List<Subscriber>
+    - subscriber: List<Subscriber>
     + PropBomb(int locationX, int locationY)
     + operate(): void
     + timeLimitExceeded(int currentTime):boolean

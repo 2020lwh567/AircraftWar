@@ -6,13 +6,14 @@
     # direction:int
     - abstractPropFactory:AbstractPropFactory
     + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + forward():void
     + generateProp():AbstractProp
  }
 
 abstract class AbstractEnemyAircraftFactory
 {
-    + {abstract} createEnemyAircraft():AbstractEnemyAircraft
+    + {abstract} createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
@@ -21,19 +22,17 @@ BossEnemy <|.. BossEnemyFactory
 EliteEnemy <|.. EliteEnemyFactory
 
 AbstractEnemyAircraft <|-- MobEnemy
-AbstractEnemyAircraft <|-- BossEnemy
-AbstractEnemyAircraft <|-- EliteEnemy
+AbstractEnemyAircraft <|-up- BossEnemy
+AbstractEnemyAircraft <|-up- EliteEnemy
 
 AbstractEnemyAircraftFactory <|-- BossEnemyFactory
 AbstractEnemyAircraftFactory <|-- EliteEnemyFactory
 AbstractEnemyAircraftFactory <|-- MobEnemyFactory
 
-
-
 class BossEnemy {
     - shootNum:int
     - power:int
-    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + forward():void
     + shoot():List<BaseBullet>
 }
@@ -41,7 +40,7 @@ class BossEnemy {
 class EliteEnemy {
     - shootNum:int
     - power:int
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + shoot():List<BaseBullet>
     + generateProp():AbstractProp
 }
@@ -50,18 +49,19 @@ class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + shoot():List<BaseBullet>
     + generateProp():AbstractProp
+    + update():void
 }
 
 class BossEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class EliteEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class MobEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 @enduml

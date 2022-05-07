@@ -80,5 +80,8 @@ public class HeroAircraft extends AbstractAircraft {
     public void increaseFire(int increaseShootNum, int increasePower){
         shootNum += increaseShootNum;
         power += increasePower;
+        if(shootNum < 1) {
+            shootNum = 1;
+        }
     }
 }

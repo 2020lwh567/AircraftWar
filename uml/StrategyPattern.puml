@@ -28,6 +28,7 @@ AbstractAircraft <.down. HeroAircraft
 AbstractAircraft o--> ShootStrategyInterface
 ShootStrategyInterface <|.. DirectShootStrategy
 ShootStrategyInterface <|.. ScatterShootStrategy
+ShootStrategyInterface <|.. SweepShootStrategy
 
 class HeroAircraft {
     - {static} heroAircraft:HeroAircraft
@@ -36,11 +37,11 @@ class HeroAircraft {
 }
 
 class EliteEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class BossEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class DirectShootStrategy {
@@ -51,12 +52,17 @@ class ScatterShootStrategy {
     + shoot(AbstractAircraft aircraft):List<BaseBullet>
 }
 
+class SweepShootStrategy {
+    + shoot(AbstractAircraft aircraft):List<BaseBullet>
+}
+
 class game{
-    - shootAction():void
+    # heroShootAction():void
+    # enemyShootAction():void
 }
 
 class PropBullet{
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft, List<BaseBullet> enemybullet):void
+    + operate():void
 }
 
 @enduml

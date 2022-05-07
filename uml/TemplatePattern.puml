@@ -1,0 +1,61 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class Game {
+    - timeInterval:int
+    # propOfGeneratingEliteAircraft:double
+    # enemyMaxNumber:int
+    # enemyShootCycle:Cycle
+    # heroShootCycle:Cycle
+    # generateEnemyCycle:Cycle
+    # increaseDifficultyCycle:Cycle
+    + Game(boolean musicOn)
+    + action():void
+    # timeCountAndNewCycleJudge(Cycle cycle):boolean
+    # {abstract} generateEnemyAircraft():void
+    # generateMobAndEliteAircraft():void
+    # generateBossAircraft():void
+    # increaseDifficultyFlag():boolean
+    # {abstract} increaseDifficulty():void
+    # heroShootAction():void
+    # enemyShootAction():void
+    # crashCheckAction():void
+    # bulletsMoveAction():void
+    # propsMoveAction():void
+    # aircraftsMoveAction():void
+    # postProcessAction():void
+    + draw(Graphics g):void
+    + {abstract} drawBackground(Graphics g):void
+}
+
+Game <|-- EasyGame
+Game <|-- MediumGame
+Game <|-- HardGame
+Game <.up. Main
+
+class Main {
+}
+
+class EasyGame {
+    + EasyGame(boolean musicOn)
+    + increaseDifficultyFlag():boolean
+    + increaseDifficulty():void
+    # generateEnemyAircraft():void
+    + drawBackground(Graphics g):void
+}
+
+class MediumGame {
+    + MediumGame(boolean musicOn)
+    + increaseDifficulty():void
+    # generateEnemyAircraft():void
+    + drawBackground(Graphics g):void
+}
+
+class HardGame {
+    + HardGame(boolean musicOn)
+    + increaseDifficulty():void
+    # generateEnemyAircraft():void
+    + drawBackground(Graphics g):void
+}
+
+@enduml

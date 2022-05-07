@@ -53,17 +53,18 @@ public class PlayerDaoImpl implements PlayerDao{
         writeCsv(players, filePath);
     }
 
-    @Override
-    public void showLeaderboard() {
-        System.out.println("********************************");
-        System.out.println("         得分排行榜         ");
-        System.out.println("********************************");
-        for (int i=0 ; i<getAllPlayers().size() ; i++){
-            Player player = getAllPlayers().get(i);
-            System.out.printf("第%d名：%s, %d, %s\n", i+1, player.getTestUserName(), player.getScore(), player.getTime());
-        }
-        writeCsv(getAllPlayers(), filePath);
-    }
+//    输出到终端
+//    @Override
+//    public void showLeaderboard() {
+//        System.out.println("********************************");
+//        System.out.println("         得分排行榜         ");
+//        System.out.println("********************************");
+//        for (int i=0 ; i<getAllPlayers().size() ; i++){
+//            Player player = getAllPlayers().get(i);
+//            System.out.printf("第%d名：%s, %d, %s\n", i+1, player.getTestUserName(), player.getScore(), player.getTime());
+//        }
+//        writeCsv(getAllPlayers(), filePath);
+//    }
 
     /**读csv文件*/
     public static LinkedList<Player> readCsv(String path) throws IOException {

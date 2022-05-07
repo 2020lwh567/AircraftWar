@@ -6,6 +6,7 @@
     # direction:int
     - abstractPropFactory:AbstractPropFactory
     + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + forward():void
     + generateProp():AbstractProp
  }
@@ -13,15 +14,12 @@
 abstract class AbstractProp
 {
     - startTime:int
-    - limitTime:int
     + AbstractProp(int locationX, int locationY)
     + setStartTime(int startTime):void
     + getStartTime():int
-    + {abstract} operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-     List<BaseBullet> enemybullet):void
+    + {abstract} operate():void
     + {abstract} timeLimitExceeded(int currentTime):boolean
-    + {abstract} setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + forward():void
 }
 
 abstract class AbstractPropFactory
@@ -33,7 +31,7 @@ AbstractPropFactory <|-- PropBloodFactory
 AbstractPropFactory <|-- PropBombFactory
 AbstractPropFactory <|-- PropBulletFactory
 
-AbstractPropFactory <|.. AbstractEnemyAircraft
+AbstractPropFactory <|.up. AbstractEnemyAircraft
 PropBomb <|.. PropBombFactory
 PropBullet <|.. PropBulletFactory
 PropBlood <|.. PropBloodFactory
@@ -42,39 +40,32 @@ AbstractProp <|-- PropBlood
 AbstractProp <|-- PropBomb
 AbstractProp <|-- PropBullet
 
-
-
-
-
 class PropBlood {
     - returnBlood:int
     + PropBlood(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate():void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
 }
 
 class PropBomb {
+    - subscriber: List<Subscriber>
     + PropBomb(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate(): void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + addSubscriber(Subscriber obj): void
+    + removeSubscriber(Subscriber obj): void
+    + notifyAllSubscribers(): void
 }
 
 class PropBullet {
     - increaseShootNum:int
     - increasePower:int
     - limitTime:int
+    - scatter2sweep:int
     + PropBullet(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate():void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + setInvalid():void
 }
 
 class PropBloodFactory{
