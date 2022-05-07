@@ -1,0 +1,116 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+abstract class AbstractFlyingObject
+{
+
+}
+
+abstract class AbstractAircraft
+{
+
+ }
+
+ abstract class AbstractEnemyAircraft
+ {
+
+ }
+
+class BaseBullet
+{
+
+}
+
+abstract class AbstractEnemyAircraftFactory
+{
+
+}
+
+abstract class AbstractProp{}
+
+abstract class AbstractPropFactory
+{
+
+}
+
+AbstractFlyingObject <|-- AbstractAircraft
+AbstractFlyingObject <|-- BaseBullet
+AbstractFlyingObject <|-- AbstractProp
+
+AbstractAircraft <|-- HeroAircraft
+AbstractAircraft <|-- AbstractEnemyAircraft
+AbstractEnemyAircraft <|-- MobEnemy
+AbstractEnemyAircraft <|-- BossEnemy
+AbstractEnemyAircraft <|-- EliteEnemy
+
+AbstractEnemyAircraftFactory <|-- BossEnemyFactory
+AbstractEnemyAircraftFactory <|-- EliteEnemyFactory
+AbstractEnemyAircraftFactory <|-- MobEnemyFactory
+
+AbstractEnemyAircraft <|.. AbstractEnemyAircraftFactory
+MobEnemy <|.. MobEnemyFactory
+BossEnemy <|.. BossEnemyFactory
+EliteEnemy <|.. EliteEnemyFactory
+
+AbstractPropFactory <|-- PropBloodFactory
+AbstractPropFactory <|-- PropBombFactory
+AbstractPropFactory <|-- PropBulletFactory
+
+AbstractPropFactory <|.. AbstractEnemyAircraft
+PropBomb <|.. PropBombFactory
+PropBullet <|.. PropBulletFactory
+PropBlood <|.. PropBloodFactory
+
+BaseBullet <|-- HeroBullet
+BaseBullet <|-- EnemyBullet
+
+AbstractProp <|-- PropBlood
+AbstractProp <|-- PropBomb
+AbstractProp <|-- PropBullet
+
+class HeroAircraft {
+}
+
+class BossEnemy {
+}
+
+class EliteEnemy {
+}
+
+class MobEnemy {
+}
+
+class HeroBullet {
+}
+
+class EnemyBullet {
+}
+
+class BossEnemyFactory {
+}
+
+class EliteEnemyFactory {
+}
+
+class MobEnemyFactory {
+}
+
+class PropBlood {
+}
+
+class PropBomb {
+}
+
+class PropBullet {
+}
+
+class PropBloodFactory{
+}
+
+class PropBombFactory{
+}
+
+class PropBulletFactory{
+}
+
+@enduml

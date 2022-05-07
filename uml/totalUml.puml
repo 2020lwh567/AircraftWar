@@ -15,14 +15,6 @@ abstract class AbstractFlyingObject
     + AbstractFlyingObject(int locationX, int locationY, int speedX, int speedY)
     + forward():void
     + crash(AbstractFlyingObject flyingObject):boolean
-    + setLocation(double locationX, double locationY):void
-    + getLocationX():int
-    + getLocationY():int
-    + getSpeedY():int
-    + getImage():BufferedImage
-    + getWidth():int
-    + getHeight():int
-    + notValid():boolean
     + vanish():void
 }
 
@@ -30,9 +22,9 @@ abstract class AbstractAircraft
 {
 	# maxHp:int
     # hp:int
+    # shootStrategy:ShootStrategyInterface
     + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
-    + decreaseHp(int decrease):void
-    + getHp():int
+    + AbstractAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + {abstract} shoot():List<BaseBullet>
  }
 
@@ -41,6 +33,7 @@ abstract class AbstractAircraft
     # direction:int
     - abstractPropFactory:AbstractPropFactory
     + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    + AbstractEnemyAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + forward():void
     + generateProp():AbstractProp
  }
@@ -50,26 +43,20 @@ class BaseBullet
     - power:int
     + BaseBullet(int locationX, int locationY, int speedX, int speedY, int power)
     + forward():void
-	+ getPower():int
 }
 
 abstract class AbstractEnemyAircraftFactory
 {
-    + {abstract} createEnemyAircraft():AbstractEnemyAircraft
+    + {abstract} createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 abstract class AbstractProp
 {
     - startTime:int
-    - limitTime:int
     + AbstractProp(int locationX, int locationY)
-    + setStartTime(int startTime):void
-    + getStartTime():int
-    + {abstract} operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-     List<BaseBullet> enemybullet):void
+    + {abstract} operate():void
     + {abstract} timeLimitExceeded(int currentTime):boolean
-    + {abstract} setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + forward():void
 }
 
 abstract class AbstractPropFactory
@@ -117,18 +104,16 @@ class HeroAircraft {
     - power:int
     - direction:int
     - {static} heroAircraft:HeroAircraft
-    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp)
+    - HeroAircraft(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + {static} getHeroAircraft():HeroAircraft
     + forward():void
     + shoot():List<BaseBullet>
-    + increaseHp(int increase):void
-    + increaseFire(int increaseShootNum, int increasePower):void
 }
 
 class BossEnemy {
     - shootNum:int
     - power:int
-    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + BossEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + forward():void
     + shoot():List<BaseBullet>
 }
@@ -136,7 +121,7 @@ class BossEnemy {
 class EliteEnemy {
     - shootNum:int
     - power:int
-    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
+    + EliteEnemy(int locationX, int locationY, int speedX, int speedY, int hp, int shootNum, int power, ShootStrategyInterface shootStrategy)
     + shoot():List<BaseBullet>
     + generateProp():AbstractProp
 }
@@ -144,7 +129,7 @@ class EliteEnemy {
 class MobEnemy {
     + MobEnemy(int locationX, int locationY, int speedX, int speedY, int hp)
     + shoot():List<BaseBullet>
-    + generateProp():AbstractProp
+    + update():void
 }
 
 class HeroBullet {
@@ -155,37 +140,36 @@ class HeroBullet {
 class EnemyBullet {
     + EnemyBullet(int locationX, int locationY,
      int speedX, int speedY, int power)
+    + update():void
 }
 
 class BossEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class EliteEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class MobEnemyFactory {
-    + createEnemyAircraft():AbstractEnemyAircraft
+    + createEnemyAircraft(int hp, int speedY):AbstractEnemyAircraft
 }
 
 class PropBlood {
     - returnBlood:int
     + PropBlood(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate():void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
 }
 
 class PropBomb {
+    - subscriber: List<Subscriber>
     + PropBomb(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate(): void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + addSubscriber(Subscriber obj): void
+    + removeSubscriber(Subscriber obj): void
+    + notifyAllSubscribers(): void
 }
 
 class PropBullet {
@@ -193,11 +177,9 @@ class PropBullet {
     - increasePower:int
     - limitTime:int
     + PropBullet(int locationX, int locationY)
-    + operate(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + operate():void
     + timeLimitExceeded(int currentTime):boolean
-    + setInvalid(HeroAircraft heroaircraft, List<AbstractEnemyAircraft> enemyaircraft,
-    List<BaseBullet> enemybullet):void
+    + setInvalid():void
 }
 
 class PropBloodFactory{

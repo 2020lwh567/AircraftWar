@@ -220,7 +220,7 @@ public abstract class Game extends JPanel {
             // 子弹移动
             bulletsMoveAction();
 
-            //道具移动
+            // 道具移动
             propsMoveAction();
 
             // 飞机移动
@@ -232,10 +232,10 @@ public abstract class Game extends JPanel {
             // 后处理
             postProcessAction();
 
-            //每个时刻重绘界面
+            // 每个时刻重绘界面
             repaint();
 
-            //检查音乐
+            // 检查音乐
             if (musicOn) {
                 checkMusic();
             }
@@ -563,21 +563,18 @@ public abstract class Game extends JPanel {
     /**创建子弹射击音频线程并启动*/
     protected final void setBulletHitThreadAndStart() {
         bulletHitThread = new MusicThread("src/videos/bullet_hit.wav",0);
-       // System.out.println("new hit music");
         shortMisicThreadStart(bulletHitThread);
     }
 
     /**创建获得道具音频线程并启动*/
     protected final void setGetSupplyThreadAndStart(){
         getSupplyThread = new MusicThread("src/videos/get_supply.wav",0);
-       // System.out.println("new supply music");
         shortMisicThreadStart(getSupplyThread);
     }
 
     /**创建获得炸弹音频线程并启动*/
     protected final void setBombThreadAndStart(){
         bombExplosionThread = new MusicThread("src/videos/bomb_explosion.wav",0);
-       // System.out.println("new bomb music");
         shortMisicThreadStart(bombExplosionThread);
     }
 
