@@ -1,5 +1,5 @@
 # AircraftWar
-
+2022年哈工大(深圳)面向对象软件构造导论实验
 #### 链接：https://github.com/2020lwh567/AircraftWar
 
 ## 最终版本：已经实现所有游戏功能
